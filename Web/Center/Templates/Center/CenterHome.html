@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Center Home</title>
+</head>
+<body>
+    {% csrf_token %}
+    <center>
+        <h2>Welcome {{center.center_name}}</h2>
+        <h3>Center Home</h3><br>
+       <a href="{% url 'webcenter:centerprofile' %}">Profile</a><br>
+       <a href="{% url 'webcenter:centereditprofile' %}">Edit Profile</a><br>
+       <a href="{% url 'webcenter:centerchangepassword' %}">Change Password</a><br>
+       <a href="{% url 'webcenter:centeraddcourse' %}">Add Course</a><br>
+       <a href="{% url 'webcenter:centercomplaint'  %}">Post website complaints</a><br>
+       <a href="{% url 'webcenter:centerfeedback'  %}">Feedbacks</a><br>
+       
+
+       
+
+    </center>
+    
+</body>
+</html>

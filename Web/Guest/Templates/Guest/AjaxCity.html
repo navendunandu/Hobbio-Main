@@ -1,0 +1,6 @@
+<select name="selcity" id="selcity">
+    <option value="">...Select...</option>
+    {% for i in city %}
+    <option value="{{i.id}}">{{i.city.city_name}}</option>
+    {% endfor %}
+</select>

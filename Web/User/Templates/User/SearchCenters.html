@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Centers</title>
+    <style>
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 5px solid #FFF;
+            border-bottom-color: #FF3D00;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+            }
+
+            @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+            } 
+            .ld {
+                display: none;
+                align-items: center;
+                position: absolute;
+                height: 100vh;
+                background-color: #e0f7fad6;
+                left: 0px;
+                top: 0px;
+                width: 100%;
+                justify-content: center;
+            }
+    </style>
+</head>
+
+<body>
+    <div class="ld" id="loader"><span class="loader"></span></div>
+    <center>
+        <form action="" method="post">
+            {% csrf_token %}
+            <h2>Search Centers</h2><br><br>
+            <table border="1" rules="none">
+                <tr>
+                    <td><select name="seldistrict" id="seldistrict">
+                            <option value="">---District---</option>
+                            {% for i in district %}
+                            <option value="{{i.id}}">{{i.dis_data.district_name}}</option>
+
+                            {% endfor %}
+                        </select></td>
+                    <td><select name="selcity" id="selcity">
+                            <option value="">---City---</option>
+
+
+                        </select></td>
+                </tr>
+                <!-- <tr>
+                    <td><select name="selcategory" id="selcategory">
+                            <option value="">---Category---</option>
+                            {% for i in category %}
+                            <option value="{{i.id}}">{{i.cat_data.category_name}}</option>
+
+                            {% endfor %}
+                        </select></td>
+                    <td><select name="selsubcategory" id="selsubcategory">
+                            <option value="">---SubCategory---</option>
+                        </select></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <center><input type="submit" value="Search"></center>
+                    </td>
+                </tr> -->
+
+            </table>
+
+            <h3>List Of Centers</h3>
+            <table border="1"  id="result">
+                <tr>
+                    <td>Center Name</td>
+                    <td>Center Type</td>
+                    <td>Contact</td>
+                    <td>Email</td>
+                    <td>Logo</td>
+                    <td>Action</td>
+                </tr>
+                    {% for i in center %}
+                <tr>
+                    <td>{{i.data.center_name}}</td>
+                    <td>{{i.data.center_type}}</td>
+                    <td>{{i.data.center_contact}}</td>
+                    <td>{{i.data.center_email}}</td>
+                    <td><img src="{{i.data.center_logo}}" width="50" height="50" alt=""></td>
+                    <td></td>
+                </tr>
+                {% endfor %}
+
+            </table>
+
+
+        </form>
+    </center>
+</body>
+
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $("#seldistrict").change(function () {
+        var did = $(this).val();
+        var cid = document.getElementById("selcity").value 
+        document.getElementById("loader").style.display = "flex"
+        var ur = "{% url 'webguest:ajaxcity' %}"
+        $.ajax({
+            url: ur,
+            data: { did: did, },
+            success: function (data) {
+                $("#selcity").html(data);
+                var ur = "{% url 'webuser:ajaxcenter' %}"
+                $.ajax({
+                    url: ur,
+                    data: { cid: cid,did: did, },
+                    success: function (data) {
+                        $("#result").html(data);
+                        document.getElementById("loader").style.display = "none"
+                    },
+                });
+            },
+        });
+    });
+
+    $("#selcity").change(function () {
+        var cid = $(this).val();
+        var did = document.getElementById("seldistrict").value
+        var ur = "{% url 'webuser:ajaxcenter' %}"
+        document.getElementById("loader").style.display = "flex"
+        $.ajax({
+            url: ur,
+            data: { cid: cid,did: did, },
+            success: function (data) {
+                $("#result").html(data);
+                document.getElementById("loader").style.display = "none"
+            },
+        });
+    });
+
+    
+    // $("#selcategory").change(function () {
+    //     var did = $(this).val();
+    //     var sid = document.getElementById("selsubcategory").value
+    //     var disid = document.getElementById("seldistrict").value
+    //     var cid = document.getElementById("selcity").value 
+    //     var ur = "{% url 'webcenter:ajaxsubcategory' %}"
+    //     document.getElementById("loader").style.display = "flex"
+    //     $.ajax({
+    //         url: ur,
+    //         data: { did: did, },
+    //         success: function (data) {
+    //             $("#selsubcategory").html(data);
+    //             var ur = "{% url 'webuser:ajaxcenter' %}"
+    //             $.ajax({
+    //                 url: ur,
+    //                 data: { sid: sid,caid: did,cid: cid,did: disid, },
+    //                 success: function (data) {
+    //                     $("#result").html(data);
+    //                     document.getElementById("loader").style.display = "none"
+    //                 },
+    //             });
+    //             // document.getElementById("loader").style.display = "none"
+    //         },
+    //     });
+    // });
+
+    // $("#selsubcategory").change(function () {
+    //     var sid = $(this).val();
+    //     var caid = document.getElementById("selcategory").value
+    //     var disid = document.getElementById("seldistrict").value
+    //     var cid = document.getElementById("selcity").value 
+    //     document.getElementById("loader").style.display = "flex"
+    //     var ur = "{% url 'webuser:ajaxcenter' %}"
+    //     $.ajax({
+    //         url: ur,
+    //         data: { sid: sid,caid: caid,cid: cid,did: disid, },
+    //         success: function (data) {
+    //             $("#result").html(data);
+    //             document.getElementById("loader").style.display = "none"
+    //         },
+    //     });
+    // });
+</script>

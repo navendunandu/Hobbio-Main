@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "104141305158",
+    "project_id": "hobbio-6b939",
+    "storage_bucket": "hobbio-6b939.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:104141305158:android:847d532cee235b87cba147",
+        "android_client_info": {
+          "package_name": "com.example.flutter_form"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZfsXWpB5oIH3wrC0iWLeMIgYnHpe6-Pg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

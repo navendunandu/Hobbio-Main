@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+</head>
+<body>
+    <center>
+        <h3>User Registration</h3>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table border="1" rules="none" cellpadding="15">
+                <tr>
+                    <td>Name</td>
+                    <td><input type="text" name="txtname" id=""></td>
+                </tr>
+                <tr>
+                    <td>Contact</td>
+                    <td><input type="text" name="txtcontact" id=""></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td><input type="text" name="txtemail" id=""></td>
+                </tr>
+                
+                <tr>
+                    <td>Gender</td>
+                    <td><input type="radio" name="txtgender" id="" value="Male">Male
+                        <input type="radio" name="txtgender" id="" value="Female">Female
+                        <input type="radio" name="txtgender" id="" value="Others">Others
+                    </td>
+                </tr>
+                <tr>
+                    <td>House Name</td>
+                    <td><input type="text" name="txthousename" id=""></td>
+                </tr>
+                <tr>
+                    <td>Area</td>
+                    <td><input type="text" name="txtarea" id=""></td>
+                </tr>
+                <tr>
+                    <td>District</td>
+                    <td><select name="seldistrict" id="seldistrict">
+                        <option value="">---select---</option>
+                        {% for i in data %}
+                        <option value="{{i.id}}" >{{i.dis_data.district_name}}</option>
+                       
+                        {% endfor %}
+                    </select></td>
+                </tr>
+                <tr>
+                    <td>City</td>
+                    <td><select name="selcity" id="selcity">
+                        <option value="">---select---</option>
+                    </select></td>
+                </tr>
+                <tr>
+                    <td>Date Of Birth</td>
+                    <td><input type="date" name="txtdob" id=""></td>
+                </tr>
+                <tr>
+                    <td>Photo</td>
+                    <td><input type="file" name="txtphoto" id=""></td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td><input type="password" name="txtpassword" id=""></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <input type="submit" value="Register" name="btnregister">
+                        <input type="reset" value="Cancel" name="btncancel">
+                    </td>
+                </tr>
+
+            </table>
+        </form>
+        {% if msg%}
+        <script>
+            alert("{{msg}}")
+        </script>
+        {% endif %}
+    </center>
+    
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $("#seldistrict").change(function () {
+        var did = $(this).val();
+        var ur = "{% url 'webguest:ajaxcity' %}"
+        $.ajax({
+            url: ur,
+            data: { did: did, },
+            success: function (data) {
+                $("#selcity").html(data);
+            },
+        });
+    });
+</script>

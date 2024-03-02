@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Edit Profile</title>
+</head>
+<body>
+    <center>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+        <table border="1" rules="none">
+            <tr>
+                <td colspan="2">
+                    <label for="txtphoto"><img src="{{user.user_photo}}" alt=""></label>
+                    <input type="file" name="txtphoto" id="txtphoto" style="display:none;">
+                </td>
+            </tr>
+           
+            <tr>
+                <td>Name</td>
+                <td><input type="text" name="txtname" id="" value="{{user.user_name}}"></td>
+            </tr>
+           
+            <tr>
+                <td>Contact</td>
+                <td><input type="text" name="txtcontact" id="" value="{{user.user_contact}}"></td>
+            </tr>
+            <tr>
+                <td>Date Of Birth</td>
+                <td><input type="date" name="txtdob" id="" value="{{user.user_dob}}"></td>
+            </tr>
+            <tr>
+                <td>House Name</td>
+                <td><input type="text" name="txthousename" id="" value="{{user.user_dob}}"></td>
+            </tr>
+            <tr>
+                <td>Area</td>
+                <td><input type="text" name="txtarea" id="" value="{{user.user_area}}"></td>
+            </tr>
+            <tr>
+                <td>District</td>
+                <td><select name="seldistrict" id="seldistrict"><option value="">---select---</option>
+                    {% for i in disdata %}
+                        {% if i.id == citydata.district_id %}
+                        <option value="{{i.id}}" selected>{{i.dis_data.district_name}}</option>
+                        {% else %}
+                        <option value="{{i.id}}" >{{i.dis_data.district_name}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                
+            </td>
+            </tr>
+            <tr>
+                <td>City</td>
+                <td><select name="selcity" id="selcity"><option value="{{user.city_id}}">{{citydata.city_name}}</option></select></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" value="Update" name="btnupdate"> </td>
+            </tr>
+            <tr>
+            </tr>
+
+        </table>
+    </form>
+    </center>
+   
+    
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $("#seldistrict").change(function () {
+        var did = $(this).val();
+        var ur = "{% url 'webguest:ajaxcity' %}"
+        $.ajax({
+            url: ur,
+            data: { did: did, },
+            success: function (data) {
+                $("#selcity").html(data);
+            },
+        });
+    });
+</script>

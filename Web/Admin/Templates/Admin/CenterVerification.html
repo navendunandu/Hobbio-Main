@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Center Verification</title>
+</head>
+<body>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <center>
+        <h3>List Of Centers</h3>
+        <table border="1" >
+            <tr>
+                <td>Sl No:</td>
+                <td>Center Name:</td>
+                <td>Status:</td>
+                <td>More:</td>
+            </tr>
+            {% for i in data %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.center_data.center_name}}</td>
+                <td><a href="{% url 'webadmin:center_accept' i.id %}">Accept</a><br>
+                <a href="{% url 'webadmin:center_reject' i.id %}">Reject</a></td>
+                <td>
+                    <a href="{% url 'webadmin:center_viewmore' i.id %}">View more</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <h3>List of Accepted Centers</h3>
+        <table border="1">
+            <tr>
+                <td>Sl No:</td>
+                <td>Center Name:</td>
+                <td>Status:</td>
+                
+            </tr>
+            {% for i in data2 %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.center_data.center_name}}</td>
+                <td>
+                <a href="{% url 'webadmin:center_reject' i.id %}">Reject</a></td>
+               
+            </tr>
+            {% endfor %}
+
+        </table>
+        <h3>List of Rejected Centers</h3>
+        <table border="1">
+            <tr>
+                <td>Sl No:</td>
+                <td>Center Name:</td>
+                <td>Status:</td>
+                
+            </tr>
+            {% for i in data3 %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.center_data.center_name}}</td>
+                <td>
+                <a href="{% url 'webadmin:center_accept' i.id %}">Accept</a></td>
+               
+            </tr>
+            {% endfor %}
+
+
+        </table>
+
+    </form>
+</center>
+</body>
+</html>

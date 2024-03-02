@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Center Edit Profile</title>
+</head>
+<body>
+    <center>
+        <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table border="1" rules="none">
+            <td colspan="2">
+                <label for="txtlogo"><img src="{{center.center_logo}}" alt=""></label>
+                <input type="file" name="txtlogo" id="txtlogo" style="display:none;">
+            </td>
+            <tr>
+                <td>Center Name</td>
+                <td><input type="text" name="txtcname" id="" value="{{center.center_name}}"></td>
+            </tr>
+            <tr>
+                <td>Contact</td>
+                <td><input type="text" name="txtccontact" id="" value="{{center.center_contact}}"></td>
+            </tr>
+            <tr>
+                <td>Type</td>
+                <td><select name="seltype" id="seltype"><option value="{{center.center_type}}">{{center.center_type}}</option>
+                  <option value="">---Select---</option>
+                    <option value="Individual">Individual</option>
+                    <option value="Group">Group</option>
+                </select></td>
+            </tr>
+            <tr>
+                <td>District</td>
+                <td><select name="seldistrict" id="seldistrict"><option value="">---select---</option>
+                    {% for i in disdata %}
+                        {% if i.id == citydata.district_id %}
+                        <option value="{{i.id}}" selected>{{i.dis_data.district_name}}</option>
+                        {% else %}
+                        <option value="{{i.id}}" >{{i.dis_data.district_name}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select></td>
+            </tr>
+            <tr>
+                <td>City</td>
+                <td><select name="selcity" id="selcity"><option value="{{center.city_id}}">{{citydata.city_name}}</option></select></td>
+            </tr>
+            <tr>
+                <td>Area</td>
+                <td><input type="text" name="txtcarea" id="" value="{{center.center_area}}"></td>
+            </tr>
+            <tr>
+                <td>Building</td>
+                <td><input type="text" name="txtcbuilding" id="" value="{{center.center_building}}"></td>
+            </tr>
+            <tr>
+                <td>Landmark</td>
+                <td><input type="text" name="txtclandmark" id="" value="{{center.center_landmark}}"></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" value="Edit" name="btnedit"></td>
+            </tr>
+
+        </table>
+    </form>
+    </center>
+    
+</body>
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $("#seldistrict").change(function () {
+        var did = $(this).val();
+        var ur = "{% url 'webguest:ajaxcity' %}"
+        $.ajax({
+            url: ur,
+            data: { did: did, },
+            success: function (data) {
+                $("#selcity").html(data);
+            },
+        });
+    });
+</script>

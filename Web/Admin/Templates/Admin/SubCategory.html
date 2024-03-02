@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SubCategory</title>
+</head>
+<body>
+    <center>
+        <br><br>
+        <h3>SubCategory</h3>
+        <form action="" method="post">
+            {% csrf_token %}
+            <table border="1" rules="none" cellspacing="10" cellpadding="30">
+                <tr>
+                    <td>Category Name</td>
+                    <td><select name="selcategory" id="">
+                        <option >---select---</option>
+                        {% for i in data %}
+                        {% if i.id == subcat_data.category_id %}
+                        <option value="{{i.id}}" selected>{{i.cat_data.category_name}}</option>
+                        {% else %}
+                        <option value="{{i.id}}" >{{i.cat_data.category_name}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select></td>
+                </tr>
+                <tr>
+                    <td>SubCategory Name</td>
+                    <td><input type="text" name="txtsubcat" id="" value="{{subcat_data.subcategory_name}}">
+                        </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <input type="submit" value="Save" name="btnsave">
+                        <input type="reset" value="Cancel" name="btncancel">
+                    </td>
+                </tr>
+            </table>
+            <table border="1">
+                <tr>
+                    <td>Sl No</td>
+                    <td>Category Name</td>
+                    <td>SubCategory Name</td>
+                    <td>Action</td>
+                </tr>
+                {% for i in subcat  %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.cat_name.category_name}}</td>
+                    <td>{{i.subcat_data.subcategory_name}}</td>
+                    <td>
+                        <a href="{% url  'webadmin:delete_subcat' i.id %}">Delete</a>
+                        <a href="{% url  'webadmin:edit_subcat' i.id %}">Edit</a>
+                    </td>
+                </tr>
+                {% endfor %}
+               
+            </table>
+        </form>
+    </center>
+    
+</body>
+</html>

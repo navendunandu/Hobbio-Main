@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyBZWS6gvS2R8Tfmf6fIUhlDIbBR8HC7M2c</string>
+	<key>GCM_SENDER_ID</key>
+	<string>104141305158</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.flutterForm.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>hobbio-6b939</string>
+	<key>STORAGE_BUCKET</key>
+	<string>hobbio-6b939.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:104141305158:ios:861afa14884b5b19cba147</string>
+</dict>
+</plist>

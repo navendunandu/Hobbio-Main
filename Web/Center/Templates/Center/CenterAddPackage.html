@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Center Add Package</title>
+</head>
+<body>
+    <center>
+        <form method="post">
+            {% csrf_token %}
+        
+        <table border="1" rules="none">
+            <tr>
+                <td>Package Name</td>
+                <td><input type="text" name="txtpackname" id="" value="{{pack.package_name}}"></td>
+            </tr>
+            <tr>
+                <td>Package Duration</td>
+                <td><input type="text" name="txtpackduration" id="" value="{{pack.package_duration}}"></td>
+            </tr>
+            <tr>
+                <td>Package Cost</td>
+                <td><input type="text" name="txtpackcost" id="" value="{{pack.package_cost}}"></td>
+            </tr>
+            <tr>
+                <td>Package Details</td>
+                <td><input type="text" name="txtpackdetails" id="" value="{{pack.package_details}}"></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" value="Submit" name="btnsubmit"></td>
+            </tr>
+        </table>
+    </form>
+        <br>
+
+        <table border="1">
+            <tr>
+                <td>Sl No</td>
+                <td>Course Name</td>
+                <td>Package Name</td>
+                <td>Package Duration</td>
+                <td>Package Cost</td>
+                <td>Package Details</td>
+                <td>Action</td>
+                
+            </tr>
+            {% for i in data  %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.course_name.course_name}}</td>
+                <td>{{i.pack_data.package_name}}</td>
+                <td>{{i.pack_data.package_duration}}</td>
+                <td>{{i.pack_data.package_cost}}</td>
+                <td>{{i.pack_data.package_details}}</td>
+                <td>
+                    <a href="{% url  'webcenter:delete_package' i.id %}">Delete</a>
+                    <a href="{% url  'webcenter:edit_package' i.id %}">Edit</a>
+                </td>
+                </tr>
+                {% endfor %}
+    </center>
+    
+</body>
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location="/Center/centeraddpackage/{{id}}"
+</script>
+{% endif %}
+
+</html>

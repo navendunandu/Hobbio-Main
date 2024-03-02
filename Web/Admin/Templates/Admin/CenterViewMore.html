@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Center View More</title>
+</head>
+<body>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <center>
+            <h3>Center Details</h3>
+            <table border="1" rules="none">
+                <tr>
+                    
+                    <td colspan="2"><img src={{center.center_logo}} alt="" width="100" height="100"></td>
+                </tr>
+                <tr>
+                    <td>Center Name:</td>
+                    <td>{{center.center_name}}</td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td>{{center.center_email}}</td>
+                </tr>
+                <tr>
+                    <td>Contact</td>
+                    <td>{{center.center_contact}}</td>
+                </tr>
+                <tr>
+                    <td>Type:</td>
+                    <td>{{center.center_type}}</td>
+                </tr>
+                <tr>
+                    <td>District:</td>
+                    <td>{{district.district_name}}</td>
+                </tr>
+                <tr>
+                    <td>City:</td>
+                    <td>{{city.city_name}}</td>
+                </tr>
+                <tr>
+                    <td>Area:</td>
+                    <td>{{center.center_area}}</td>
+                </tr>
+                <tr>
+                    <td>Building:</td>
+                    <td>{{center.center_building}}</td>
+                </tr>
+                <tr>
+                    <td>Landmark:</td>
+                    <td>{{center.center_landmark}}</td>
+                </tr>
+                <tr>
+                    <td>Proof:</td>
+                    <td><a href="{{center.center_proof}}">proof</a></td>
+                </tr>
+                <tr>
+                    <td>Date Of Join:</td>
+                    <td>{{center.center_email}}</td>
+                </tr>
+                
+
+
+
+
+            </table>
+        </center>
+    </form>
+    
+</body>
+</html>

@@ -1,0 +1,19 @@
+<table border="1">
+    <tr>
+        <td>Center Name</td>
+        <td>Center Type</td>
+        <td>Contact</td>
+        <td>Email</td>
+        <td>Logo</td>
+        <td>Action</td>
+    </tr>
+{% for i in data %}
+<tr>
+    <td>{{i.data.center_name}}</td>
+    <td>{{i.data.center_type}}</td>
+    <td>{{i.data.center_contact}}</td>
+    <td>{{i.data.center_email}}</td>
+    <td><img src="{{i.data.center_logo}}" width="50" height="50" alt=""></td>
+</tr>
+{% endfor %}
+</table>

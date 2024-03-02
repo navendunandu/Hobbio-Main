@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+</head>
+<body>
+    <form action="" method="post" >
+        {% csrf_token %}
+    <center>
+        <table border="1" rules="none">
+            <tr>
+                <td colspan="2" align="center"><img src={{user.user_photo}} width="150" height="150" ></td>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td><input type="text" name="txtname" id="" value="{{user.user_name}}"></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><input type="text" name="txtname" id="" value="{{user.user_email}}"></td>
+            </tr>
+            <tr>
+                <td>Contact</td>
+                <td><input type="text" name="txtname" id="" value="{{user.user_contact}}"></td>
+            </tr>
+            <tr>
+                <td>House Name</td>
+                <td><input type="text" name="txtname" id="" value="{{user.user_housename}}"></td>
+            </tr>
+            <tr>
+                <td>Area</td>
+                <td><input type="text" name="txtname" id="" value="{{user.user_area}}"></td>
+            </tr>
+            <tr>
+                <td>District</td>
+                <td><input type="text" name="txtdistrict" id="" value="{{disdata.district_name}}"></td>
+            </tr>
+            <tr>
+                <td>City</td>
+                <td><input type="text" name="txtcity" id="" value="{{citydata.city_name}}"></td>
+            </tr>
+            
+<tr>
+    <td colspan="2"><a href="{% url 'webuser:usereditprofile' %}">Edit Profile</a><br>
+        <a href="{% url 'webuser:userchangepassword' %}">Change Password</a></td>
+    </td>
+</tr>
+        </table>
+    </center>
+</form> 
+</body>
+</html>
