@@ -165,3 +165,12 @@ def ajaxcenter(request):
     #             cen = db.collection("tbl_center").document(datas["center_id"]).get()
     #             c_data.append({"data":center,"id":cen.id})
     #     return render(request,"User/AjaxCenter.html",{"data":c_data})
+
+def viewcenter(request,id):
+    center=db.collection("tbl_center").where("ecnter_id","==",id)
+    coursedata=db.collection("tbl_course").where("center_id", "==", id).stream()
+    courselist=[]
+    for i in coursedata:
+        course=i.to_dict()
+        courselist.append({"course_data":course,"id":i.id})
+    return render(request,"User/ViewCenter.html",{"data":courselist})

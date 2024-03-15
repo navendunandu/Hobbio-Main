@@ -16,5 +16,9 @@ urlpatterns = [
     path('searchcenters/',views.searchcenters,name="searchcenters"),
     path('ajaxcenter/',views.ajaxcenter,name="ajaxcenter"),
 
+    path('viewcenter/<str:id>',views.viewcenter,name="viewcenter"),
+
+    
+
     
 ]
