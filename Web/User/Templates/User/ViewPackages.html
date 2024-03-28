@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Packages</title>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+    <div>
+        {% for i in data  %}
+        <p >
+            <strong>SL No: {{forloop.counter}}</strong><br>
+            <strong>Package Name: {{i.package_data.package_name}}</strong><br>
+            <strong>Package Duration:{{i.package_data.package_duration}} </strong><br>
+            <strong>Package Cost: {{i.package_data.package_cost}}</strong><br>
+            <strong>Package Details: {{i.package_data.package_details}}</strong><br>
+            <div>
+                
+                   <a href="">Book Package</a>
+                
+            </div>
+        </p>
+        {% endfor %}
+       
+    </div>
+</form>
+</body>
+</html>

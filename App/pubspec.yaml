@@ -37,6 +37,19 @@ flutter:
     - family: Hobbio3
       fonts:
         - asset: assets/fonts/SummaryNotesRegular-Ea5ln.ttf
+    - family: Hobbio4
+      fonts:
+        - asset: assets/fonts/LuckySunshine-axo9R.ttf
+    - family: Hobbio5
+      fonts:
+        - asset: assets/fonts/BabySela-vmxz4.ttf
+    - family: Hobbio6
+      fonts:
+        - asset: assets/fonts/BetterGrade-519DV.ttf
+    - family: Hobbio7
+      fonts:
+        - asset: assets/fonts/BrettleySignatureRegular-RpEMo.ttf
+
 
 
 

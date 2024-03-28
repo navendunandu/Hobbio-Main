@@ -4,7 +4,7 @@ import 'package:hobbio/user_dashboard.dart';
 import 'package:hobbio/user_registration.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -12,7 +12,8 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<double> _animation;
+  late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
 
   @override
   void initState() {
@@ -22,18 +23,34 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       duration: const Duration(seconds: 2),
       vsync: this,
     );
-    _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
-
-    Future.delayed(const Duration(seconds: 3), () {
+    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
+    _slideAnimation = Tween<Offset>(begin: Offset(0, -0.5), end: Offset.zero).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
+Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const UserDashboard(),
+          builder: (context) => const LoginScreen(),
         ),
       );
     });
 
     _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -48,27 +65,53 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
           ),
           Positioned.fill(
             child: AnimatedBuilder(
-              animation: _animation,
+              animation: _fadeAnimation,
               builder: (BuildContext context, Widget? child) {
                 return CustomPaint(
                   painter: CircleBackgroundPainter(
-                    animationValue: _animation.value,
+                    animationValue: _fadeAnimation.value,
                   ),
                 );
               },
             ),
           ),
           Center(
-            child: FadeTransition(
-              opacity: _animation,
-              child: const Text(
-                'Hobbio',
-                style: TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: SlideTransition(
+                    position: _slideAnimation,
+                    child: const Text(
+                      'Hobbio',
+                      style: TextStyle(
+                        fontFamily: 'Hobbio',
+                        fontSize: 66,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 10, 128, 224),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+                SizedBox(height: 5), // Adjust the height between the texts as needed
+                FadeTransition(
+                  opacity: _fadeAnimation,
+                  child: SlideTransition(
+                    position: _slideAnimation,
+                    child: Text(
+                      'Follow your passion',
+                      style: TextStyle(
+                        fontFamily: 'Hobbio7',
+                        fontSize: 30, // You can adjust the font size as needed
+                        fontWeight: FontWeight.w500,
+                        color: Color.fromARGB(255, 32, 99, 181), // Adjust the color according to your design
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -87,13 +130,12 @@ class CircleBackgroundPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.blue.withOpacity(0.2) // Circle color
+      ..color = Color.fromARGB(255, 2, 107, 193).withOpacity(0.2) // Circle color
       ..style = PaintingStyle.fill;
 
     final cornerOffsets = [
-      const Offset(0, 0), // Top-left corner
-      Offset(size.width, 0), // Top-right corner
-      Offset(size.width, size.height), // Bottom-right corner
+      const Offset(20, 20), // Top-left corner
+      Offset(size.width - 60, size.height - 60), // Bottom-right corner with increased size
     ];
 
     final maxRadius = size.longestSide * 0.2; // Max radius for circles

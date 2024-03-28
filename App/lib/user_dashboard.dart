@@ -188,25 +188,25 @@ class _UserDashboardState extends State<UserDashboard> {
                 ],
               ),
 
-              Row(
-                children: [
-                  Container(
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          left: 50, top: 10), // Adjust the padding as needed
-                      child: Text(
-                        "Profile",
-                        style: TextStyle(
-                          fontFamily:
-                              'Hobbio3', // Check if this font exists in your project
-                          fontWeight: FontWeight.w500,
-                          fontSize: 23,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              // Row(
+              //   children: [
+              //     Container(
+              //       child: Padding(
+              //         padding: EdgeInsets.only(
+              //             left: 50, top: 10), // Adjust the padding as needed
+              //         child: Text(
+              //           "Profile",
+              //           style: TextStyle(
+              //             fontFamily:
+              //                 'Hobbio3', // Check if this font exists in your project
+              //             fontWeight: FontWeight.w500,
+              //             fontSize: 23,
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
 
               //  Row(
               //           children: [
@@ -233,7 +233,7 @@ class _UserDashboardState extends State<UserDashboard> {
   children: [
     Container(
       child: Padding(
-        padding: EdgeInsets.only(left: 45,top: 150), // Adjust the padding as needed
+        padding: EdgeInsets.only(left: 45,top: 200), // Adjust the padding as needed
         child: Row( // Wrap Icon and Text in a Row
           children: [
             Icon(

@@ -167,10 +167,30 @@ def ajaxcenter(request):
     #     return render(request,"User/AjaxCenter.html",{"data":c_data})
 
 def viewcenter(request,id):
-    center=db.collection("tbl_center").where("ecnter_id","==",id)
+    centerdata=db.collection("tbl_center").where("center_id","==",id).stream()
+    centerlist=[]
+    for i in centerdata:
+        center=i.to_dict()
+        centerlist.append({"center_data":center,"id":i.id})
     coursedata=db.collection("tbl_course").where("center_id", "==", id).stream()
     courselist=[]
     for i in coursedata:
         course=i.to_dict()
         courselist.append({"course_data":course,"id":i.id})
-    return render(request,"User/ViewCenter.html",{"data":courselist})
+    return render(request,"User/ViewCenter.html",{"data":courselist,"center":centerlist})
+
+def viewpackages(request,id):
+    packagedata=db.collection("tbl_package").where("course_id","==",id).stream()
+    packagelist=[]
+    for i in packagedata:
+        package=i.to_dict()
+        packagelist.append({"package_data":package,"id":i.id})
+    return render(request,"User/ViewPackages.html",{"data":packagelist})
+
+def viewimages(request,id):
+    imagedata=db.collection("tbl_gallery").where("course_id","==",id).stream()
+    imagelist=[]
+    for i in imagedata:
+        image=i.to_dict()
+        imagelist.append({"image_data":image,"id":i.id})
+    return render(request,"User/ViewImages.html",{"data":imagelist})

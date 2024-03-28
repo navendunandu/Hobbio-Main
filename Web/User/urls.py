@@ -17,6 +17,8 @@ urlpatterns = [
     path('ajaxcenter/',views.ajaxcenter,name="ajaxcenter"),
 
     path('viewcenter/<str:id>',views.viewcenter,name="viewcenter"),
+    path('viewpackages/<str:id>',views.viewpackages,name="viewpackages"),
+    path('viewimages/<str:id>',views.viewimages,name="viewimages"),
 
     
 
