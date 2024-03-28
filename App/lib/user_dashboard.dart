@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 
 class UserDashboard extends StatefulWidget {
   const UserDashboard({super.key});
@@ -10,113 +13,271 @@ class UserDashboard extends StatefulWidget {
 class _UserDashboardState extends State<UserDashboard> {
   @override
   Widget build(BuildContext context) {
-   {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('User Dashboard'),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
+    {
+      return Scaffold(
+        // Use Stack to place widgets on top of each other
+        body: Container(
+          height: double.infinity,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(
+                  'assets/bg2.jpg'), // Replace 'assets/bg2.jpg' with your image path
+              fit: BoxFit.fill,
+              alignment: Alignment.centerRight, // Adjust the alignment here
+            ),
+          ),
+          child: ListView(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 50, top: 70),
+                child: Text(
+                  'John Doe', // Replace with the actual user name
+                  style: TextStyle(
+                    fontFamily: 'hobbio2',
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 6, 187,
+                        175), // You can change the color according to your design
+                  ),
                 ),
               ),
+              SizedBox(
+                height: 40,
+              ),
+
+              Row(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        left: BorderSide(
+                          color: Colors.orange, // Border color
+                          width: 10, // Border thickness
+                        ),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: 40), // Adjust the padding as needed
+                      child: Text(
+                        "Home",
+                        style: TextStyle(
+                          fontFamily:
+                              'Hobbio3', // Check if this font exists in your project
+                          fontWeight: FontWeight.w500,
+                          fontSize: 23,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              Row(
+                children: [
+                  Container(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: 50, top: 10), // Adjust the padding as needed
+                      child: Text(
+                        "Profile",
+                        style: TextStyle(
+                          fontFamily:
+                              'Hobbio3', // Check if this font exists in your project
+                          fontWeight: FontWeight.w500,
+                          fontSize: 23,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Container(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: 50, top: 10), // Adjust the padding as needed
+                      child: Text(
+                        "Search Centers",
+                        style: TextStyle(
+                          fontFamily:
+                              'Hobbio3', // Check if this font exists in your project
+                          fontWeight: FontWeight.w500,
+                          fontSize: 23,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Container(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: 50, top: 10), // Adjust the padding as needed
+                      child: Text(
+                        "View Bookings",
+                        style: TextStyle(
+                          fontFamily:
+                              'Hobbio3', // Check if this font exists in your project
+                          fontWeight: FontWeight.w500,
+                          fontSize: 23,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Container(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: 50, top: 10), // Adjust the padding as needed
+                      child: Text(
+                        "Favorites",
+                        style: TextStyle(
+                          fontFamily:
+                              'Hobbio3', // Check if this font exists in your project
+                          fontWeight: FontWeight.w500,
+                          fontSize: 23,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Container(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: 50, top: 10), // Adjust the padding as needed
+                      child: Text(
+                        "Complaints",
+                        style: TextStyle(
+                          fontFamily:
+                              'Hobbio3', // Check if this font exists in your project
+                          fontWeight: FontWeight.w500,
+                          fontSize: 23,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Container(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: 50, top: 10), // Adjust the padding as needed
+                      child: Text(
+                        "Feedbacks",
+                        style: TextStyle(
+                          fontFamily:
+                              'Hobbio3', // Check if this font exists in your project
+                          fontWeight: FontWeight.w500,
+                          fontSize: 23,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              Row(
+                children: [
+                  Container(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: 50, top: 10), // Adjust the padding as needed
+                      child: Text(
+                        "Profile",
+                        style: TextStyle(
+                          fontFamily:
+                              'Hobbio3', // Check if this font exists in your project
+                          fontWeight: FontWeight.w500,
+                          fontSize: 23,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              //  Row(
+              //           children: [
+              //             Container(
+              //               child: Padding(
+              //         padding: EdgeInsets.only(
+              //             left: 50, top: 10), // Adjust the padding as needed
+              //         child:
+              //              Icon(
+              //           Icons.power_settings_new_rounded,
+              //           size: 32, // Increase the size of the icon
+              //           color: Colors.black, // You can change the color of the icon
+              //         ),
+
+              //             ),
+                          
+                         
+
+              //           ],
+
+              //         ),
+
+                     Row(
+  children: [
+    Container(
+      child: Padding(
+        padding: EdgeInsets.only(left: 45,top: 150), // Adjust the padding as needed
+        child: Row( // Wrap Icon and Text in a Row
+          children: [
+            Icon(
+              Icons.power_settings_new_rounded,
+              size: 30, // Adjust the size as needed
+              color: Colors.black, // Adjust the color as needed
             ),
-            ListTile(
-              title: const Text('Profile'),
-              onTap: () {
-                // Navigate to profile screen
-              },
-            ),
-            ListTile(
-              title: const Text('Settings'),
-              onTap: () {
-                // Navigate to settings screen
-              },
-            ),
-            // Add more items for navigation
-          ],
-        ),
-      ),
-      body: Container(
-        padding: const EdgeInsets.all(20),
-        child: const Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
+             // Add space between Icon and Text
             Text(
-              'Welcome Back, User!',
+              "Logout",
               style: TextStyle(
-                fontSize: 24,
+                fontFamily: 'Hobbio3', // Check if this font exists in your project
                 fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 20),
-            Card(
-              elevation: 2,
-              child: Padding(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'User Information',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    // Placeholder for user information
-                    Text('Username: John Doe'),
-                    Text('Email: john@example.com'),
-                    // Add more user information fields as needed
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            Card(
-              elevation: 2,
-              child: Padding(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      'Recent Activity',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    // Placeholder for recent activity
-                    ListTile(
-                      title: Text('You completed task A'),
-                      subtitle: Text('2 days ago'),
-                    ),
-                    ListTile(
-                      title: Text('You received a message'),
-                      subtitle: Text('3 days ago'),
-                    ),
-                    // Add more recent activity items as needed
-                  ],
-                ),
+                fontSize: 23,
               ),
             ),
           ],
         ),
       ),
-    );
-  }
+    ),
+  ],
+),
+
+
+
+
+
+
+
+              
+             
+              
+
+             
+
+              
+
+             
+             
+            ],
+                     
+          ),
+        ),
+      );
+    }
   }
 }

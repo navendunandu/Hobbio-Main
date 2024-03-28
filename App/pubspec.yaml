@@ -26,7 +26,20 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-  - assets/
+    - assets/
+  fonts:
+    - family: Hobbio
+      fonts:
+        - asset: assets/fonts/HappyLucky-gxnZP.ttf
+    - family: Hobbio2
+      fonts:
+        - asset: assets/fonts/MondayFeelings-7BD2l.ttf
+    - family: Hobbio3
+      fonts:
+        - asset: assets/fonts/SummaryNotesRegular-Ea5ln.ttf
+
+
+
  
 
 

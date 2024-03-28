@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hobbio/login_screen.dart';
+import 'package:hobbio/user_dashboard.dart';
 import 'package:hobbio/user_registration.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -27,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
+          builder: (context) => const UserDashboard(),
         ),
       );
     });
