@@ -166,18 +166,6 @@ def ajaxcenter(request):
     #             c_data.append({"data":center,"id":cen.id})
     #     return render(request,"User/AjaxCenter.html",{"data":c_data})
 
-def viewcenter(request,id):
-    centerdata=db.collection("tbl_center").where("center_id","==",id).stream()
-    centerlist=[]
-    for i in centerdata:
-        center=i.to_dict()
-        centerlist.append({"center_data":center,"id":i.id})
-    coursedata=db.collection("tbl_course").where("center_id", "==", id).stream()
-    courselist=[]
-    for i in coursedata:
-        course=i.to_dict()
-        courselist.append({"course_data":course,"id":i.id})
-    return render(request,"User/ViewCenter.html",{"data":courselist,"center":centerlist})
 
 def viewpackages(request,id):
     packagedata=db.collection("tbl_package").where("course_id","==",id).stream()
@@ -194,3 +182,35 @@ def viewimages(request,id):
         image=i.to_dict()
         imagelist.append({"image_data":image,"id":i.id})
     return render(request,"User/ViewImages.html",{"data":imagelist})
+
+def viewcenter(request,id):
+    centerdata=db.collection("tbl_center").where("center_id","==",id).stream()
+    centerlist=[]
+    for i in centerdata:
+        center=i.to_dict()
+        centerlist.append({"center_data":center,"id":i.id})
+    coursedata=db.collection("tbl_course").where("center_id", "==", id).stream()
+    courselist=[]
+    for i in coursedata:
+        course=i.to_dict()
+        courselist.append({"course_data":course,"id":i.id})
+    return render(request,"User/ViewCenter.html",{"data":courselist,"center":centerlist})
+
+
+
+def complainttocenter(request,id):
+    uid=request.session["uid"]
+
+    compdata=db.collection("tbl_centercomplaints").where("user_id", "==", request.session["uid"]).stream()
+    complist=[]
+    for i in compdata:
+        comp=i.to_dict()
+        complist.append({"comp_data":comp,"id":i.id})
+        
+    if request.method=="POST":
+        data={"ccomplaint_title":request.POST.get("txtctitle")
+            ,"ccomplaint_content":request.POST.get("txtccontent"),"user_id":uid,"center_id":id}
+        db.collection("tbl_centercomplaints").add(data)
+        return redirect("webuser:complainttocenter")
+    else:
+        return render(request,"User/ComplaintToCenter.html",{"data":complist})

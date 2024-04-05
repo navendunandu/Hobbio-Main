@@ -220,8 +220,8 @@ void initState() {
       body: Container(
         padding: const EdgeInsets.fromLTRB(25.0, 50.0, 25.0, 20.0),
         decoration: const BoxDecoration(
-          // image: DecorationImage(
-          //     image: AssetImage('assets/bg3.jpg'), fit: BoxFit.cover),
+          image: DecorationImage(
+              image: AssetImage('assets/pic2.jpg'), fit: BoxFit.cover),
           color: Color.fromARGB(255, 255, 252, 252),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(40.0),
@@ -259,7 +259,7 @@ void initState() {
                               ? FileImage(File(_selectedImage!.path))
                               : _imageUrl != null
                                   ? NetworkImage(_imageUrl!)
-                                  : const AssetImage('assets/7710826.jpg')
+                                  : const AssetImage('assets/0d64989794b1a4c9d89bff571d3d5842.jpg')
                                       as ImageProvider,
                           child: _selectedImage == null && _imageUrl == null
                               ? const Icon(
@@ -664,24 +664,37 @@ void initState() {
                 ),
                 // signup button
                 SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_formSignupKey.currentState!.validate() &&
-                          agreePersonalData) {
-                            
-                        _registerUser();
-                      } else if (!agreePersonalData) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text(
-                                  'Please agree to the processing of personal data')),
-                        );
-                      }
-                    },
-                    child: const Text('Sign up'),
-                  ),
-                ),
+  width: double.infinity,
+  child: ElevatedButton(
+    onPressed: () {
+      if (_formSignupKey.currentState!.validate() &&
+          agreePersonalData) {
+        _registerUser();
+      } else if (!agreePersonalData) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.blue, // Set background color to blue
+            content: Text(
+              'Please agree to the processing of personal data',
+              style: TextStyle(color: Colors.white), // Set text color to white
+            ),
+          ),
+        );
+      }
+    },
+    style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 65, 89, 124)), // Set background color of the button to blue
+    ),
+    child: Container(
+      color: Color.fromARGB(255, 65, 89, 124), // Set background color of the text to blue
+      child: const Text(
+        'Sign up',
+        style: TextStyle(color: Colors.white), // Set text color to white
+      ),
+    ),
+  ),
+),
+
                 const SizedBox(
                   height: 30.0,
                 ),

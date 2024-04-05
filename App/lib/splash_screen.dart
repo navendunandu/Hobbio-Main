@@ -95,7 +95,7 @@ Future.delayed(const Duration(seconds: 3), () {
                     ),
                   ),
                 ),
-                SizedBox(height: 5), // Adjust the height between the texts as needed
+                // SizedBox(height: 5), // Adjust the height between the texts as needed
                 FadeTransition(
                   opacity: _fadeAnimation,
                   child: SlideTransition(

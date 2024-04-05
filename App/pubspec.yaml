@@ -49,6 +49,9 @@ flutter:
     - family: Hobbio7
       fonts:
         - asset: assets/fonts/BrettleySignatureRegular-RpEMo.ttf
+    - family: Hobbio8
+      fonts:
+        - asset: assets/fonts/TiltNeon[XROT,YROT].ttf
 
 
 

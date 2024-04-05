@@ -20,6 +20,9 @@ urlpatterns = [
     path('viewpackages/<str:id>',views.viewpackages,name="viewpackages"),
     path('viewimages/<str:id>',views.viewimages,name="viewimages"),
 
+    path('complainttocenter/<str:id>',views.complainttocenter,name="complainttocenter"),
+
+
     
 
     

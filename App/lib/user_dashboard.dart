@@ -2,6 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hobbio/login_screen.dart';
+import 'package:hobbio/user_profile.dart';
+import 'package:hobbio/user_complaints.dart';
+import 'package:hobbio/user_feedbacks.dart';
 
 class UserDashboard extends StatefulWidget {
   const UserDashboard({super.key});
@@ -21,7 +25,7 @@ class _UserDashboardState extends State<UserDashboard> {
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(
-                  'assets/bg2.jpg'), // Replace 'assets/bg2.jpg' with your image path
+                  'assets/Blue and White Illustrated Login Page Mobile Prototype.png'), // Replace 'assets/bg2.jpg' with your image path
               fit: BoxFit.fill,
               alignment: Alignment.centerRight, // Adjust the alignment here
             ),
@@ -29,15 +33,14 @@ class _UserDashboardState extends State<UserDashboard> {
           child: ListView(
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 50, top: 70),
+                padding: EdgeInsets.only(left: 30, top: 80),
                 child: Text(
-                  'John Doe', // Replace with the actual user name
+                  'Sheen', // Replace with the actual user name
                   style: TextStyle(
-                    fontFamily: 'hobbio2',
-                    fontSize: 30,
+                    fontFamily: 'hobbio',
+                    fontSize: 35,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 6, 187,
-                        175), // You can change the color according to your design
+                    color: Color.fromARGB(255, 1, 8, 15), // You can change the color according to your design
                   ),
                 ),
               ),
@@ -51,14 +54,15 @@ class _UserDashboardState extends State<UserDashboard> {
                     decoration: BoxDecoration(
                       border: Border(
                         left: BorderSide(
-                          color: Colors.orange, // Border color
+                          color: Color(0xDAFC8D7E), // Border color
                           width: 10, // Border thickness
                         ),
                       ),
                     ),
                     child: Padding(
                       padding: EdgeInsets.only(
-                          left: 40), // Adjust the padding as needed
+                          left: 22),
+                           // Adjust the padding as needed
                       child: Text(
                         "Home",
                         style: TextStyle(
@@ -78,14 +82,24 @@ class _UserDashboardState extends State<UserDashboard> {
                   Container(
                     child: Padding(
                       padding: EdgeInsets.only(
-                          left: 50, top: 10), // Adjust the padding as needed
-                      child: Text(
-                        "Profile",
-                        style: TextStyle(
-                          fontFamily:
-                              'Hobbio3', // Check if this font exists in your project
-                          fontWeight: FontWeight.w500,
-                          fontSize: 23,
+                          left: 30, top: 10), // Adjust the padding as needed
+                      child: GestureDetector(
+                        onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (e) => UserProfilePage(),
+                          ),
+                        );
+                      },
+                        child: Text(
+                          "Profile",
+                          style: TextStyle(
+                            fontFamily:
+                                'Hobbio3', // Check if this font exists in your project
+                            fontWeight: FontWeight.w500,
+                            fontSize: 23,
+                          ),
                         ),
                       ),
                     ),
@@ -97,7 +111,7 @@ class _UserDashboardState extends State<UserDashboard> {
                   Container(
                     child: Padding(
                       padding: EdgeInsets.only(
-                          left: 50, top: 10), // Adjust the padding as needed
+                          left: 30, top: 10), // Adjust the padding as needed
                       child: Text(
                         "Search Centers",
                         style: TextStyle(
@@ -116,7 +130,7 @@ class _UserDashboardState extends State<UserDashboard> {
                   Container(
                     child: Padding(
                       padding: EdgeInsets.only(
-                          left: 50, top: 10), // Adjust the padding as needed
+                          left: 30, top: 10), // Adjust the padding as needed
                       child: Text(
                         "View Bookings",
                         style: TextStyle(
@@ -135,7 +149,7 @@ class _UserDashboardState extends State<UserDashboard> {
                   Container(
                     child: Padding(
                       padding: EdgeInsets.only(
-                          left: 50, top: 10), // Adjust the padding as needed
+                          left: 30, top: 10), // Adjust the padding as needed
                       child: Text(
                         "Favorites",
                         style: TextStyle(
@@ -154,14 +168,24 @@ class _UserDashboardState extends State<UserDashboard> {
                   Container(
                     child: Padding(
                       padding: EdgeInsets.only(
-                          left: 50, top: 10), // Adjust the padding as needed
-                      child: Text(
-                        "Complaints",
-                        style: TextStyle(
-                          fontFamily:
-                              'Hobbio3', // Check if this font exists in your project
-                          fontWeight: FontWeight.w500,
-                          fontSize: 23,
+                          left: 30, top: 10), // Adjust the padding as needed
+                      child: GestureDetector(
+                        onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (e) => UserComplaints(),
+                          ),
+                        );
+                      },
+                        child: Text(
+                          "Complaints",
+                          style: TextStyle(
+                            fontFamily:
+                                'Hobbio3', // Check if this font exists in your project
+                            fontWeight: FontWeight.w500,
+                            fontSize: 23,
+                          ),
                         ),
                       ),
                     ),
@@ -173,14 +197,25 @@ class _UserDashboardState extends State<UserDashboard> {
                   Container(
                     child: Padding(
                       padding: EdgeInsets.only(
-                          left: 50, top: 10), // Adjust the padding as needed
-                      child: Text(
-                        "Feedbacks",
-                        style: TextStyle(
-                          fontFamily:
-                              'Hobbio3', // Check if this font exists in your project
-                          fontWeight: FontWeight.w500,
-                          fontSize: 23,
+                          left: 30, top: 10), // Adjust the padding as needed
+                      child: GestureDetector(
+                        onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (e) => UserFeedbacks(),
+                          ),
+                        );
+                      },
+
+                        child: Text(
+                          "Feedbacks",
+                          style: TextStyle(
+                            fontFamily:
+                                'Hobbio3', // Check if this font exists in your project
+                            fontWeight: FontWeight.w500,
+                            fontSize: 23,
+                          ),
                         ),
                       ),
                     ),
@@ -233,7 +268,7 @@ class _UserDashboardState extends State<UserDashboard> {
   children: [
     Container(
       child: Padding(
-        padding: EdgeInsets.only(left: 45,top: 200), // Adjust the padding as needed
+        padding: EdgeInsets.only(left: 25,top: 200), // Adjust the padding as needed
         child: Row( // Wrap Icon and Text in a Row
           children: [
             Icon(

@@ -89,7 +89,8 @@ print("login error $e");
                     const Text(
                       'Login',
                       style: TextStyle(
-                        fontSize: 28,
+                        fontSize: 40,
+                        fontFamily: 'Hobbio',
                         fontWeight: FontWeight.bold,
                         color: Colors.blueAccent,
                       ),
@@ -176,7 +177,8 @@ print("login error $e");
                       child: const Text(
                         'Login',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontFamily: 'Hobbio',
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -194,6 +196,8 @@ print("login error $e");
                             'Forgot Password...?',
                             style: TextStyle(
                               color: Color.fromARGB(255, 5, 106, 239),
+                              fontFamily: 'Hobbio',
+                              fontSize: 17
                             ),
                           ),
                         ),
@@ -208,6 +212,8 @@ print("login error $e");
                             "Don't have an account? Sign Up",
                             style: TextStyle(
                               color: Color.fromARGB(255, 5, 106, 239),
+                              fontFamily: 'Hobbio',
+                              fontSize: 17
                             ),
                           ),
                         ),
