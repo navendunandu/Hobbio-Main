@@ -33,10 +33,8 @@ class UserFeedbacks extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: SizedBox(
-                // height: 100.0, // Adjust the height as needed
-                child: GlassCard(
-                  child: FeedbacksForm(),
-                ),
+                height: 250.0, // Adjust the height as needed
+                child: FeedbacksFormCard(),
               ),
             ),
           ),
@@ -46,28 +44,18 @@ class UserFeedbacks extends StatelessWidget {
   }
 }
 
-class GlassCard extends StatelessWidget {
-  final Widget child;
-
-  GlassCard({required this.child});
-
+class FeedbacksFormCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(20.0),
-      decoration: BoxDecoration(
+    return Card(
+      elevation: 5.0,
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
-        color: Colors.white.withOpacity(0.3),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.white.withOpacity(0.5),
-            blurRadius: 10.0,
-            spreadRadius: 2.0,
-            offset: Offset(0, 5),
-          ),
-        ],
       ),
-      child: child,
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+        child: FeedbacksForm(),
+      ),
     );
   }
 }
@@ -81,44 +69,40 @@ class FeedbacksForm extends StatelessWidget {
         Text(
           'Send your feedbacks...',
           style: TextStyle(
-              fontSize: 30.0,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Hobbio'),
+            fontSize: 25.0,
+            fontWeight: FontWeight.w500,
+            fontFamily: 'Hobbio3',
+          ),
         ),
-        
         SizedBox(height: 20.0),
-        Expanded(
-          child: TextField(
-            maxLines: null,
-            keyboardType: TextInputType.multiline,
-            decoration: InputDecoration(
-              labelText: 'Feedback Content',
-              border: OutlineInputBorder(),
+        TextField(
+          maxLines: null,
+          keyboardType: TextInputType.multiline,
+          decoration: InputDecoration(
+            labelText: 'Feedback Content',
+            border: OutlineInputBorder(),
+          ),
+        ),
+        SizedBox(height: 20.0),
+        ElevatedButton(
+          onPressed: () {
+            // Add your submission logic here
+            // This function will be called when the button is pressed
+          },
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 65, 89, 124)), // Background color
+          ),
+          child: Center(
+            child: Text(
+              'Submit',
+              style: TextStyle(
+                color: Colors.white, // Text color
+                fontFamily: 'Hobbio',
+                fontSize: 17 // Font family
+              ),
             ),
           ),
         ),
-        
-        ElevatedButton(
-  onPressed: () {
-    // Add your submission logic here
-    // This function will be called when the button is pressed
-  },
-  style: ButtonStyle(
-    backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 65, 89, 124)), // Background color
-  ),
-  child: Center(
-    child: Text(
-      'Submit',
-      style: TextStyle(
-        color: Colors.white, // Text color
-        fontFamily: 'Hobbio',
-        fontSize: 17 // Font family
-      ),
-    ),
-  ),
-),
-
-
       ],
     );
   }

@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hobbio/login_screen.dart';
+import 'package:hobbio/search_centers.dart';
 import 'package:hobbio/user_profile.dart';
 import 'package:hobbio/user_complaints.dart';
 import 'package:hobbio/user_feedbacks.dart';
+import 'package:hobbio/search_centers.dart';
 
 class UserDashboard extends StatefulWidget {
   const UserDashboard({super.key});
@@ -112,13 +114,24 @@ class _UserDashboardState extends State<UserDashboard> {
                     child: Padding(
                       padding: EdgeInsets.only(
                           left: 30, top: 10), // Adjust the padding as needed
-                      child: Text(
-                        "Search Centers",
-                        style: TextStyle(
-                          fontFamily:
-                              'Hobbio3', // Check if this font exists in your project
-                          fontWeight: FontWeight.w500,
-                          fontSize: 23,
+                      child: GestureDetector(
+                        onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (e) => SearchPage(),
+                          ),
+                        );
+                      },
+
+                        child: Text(
+                          "Search Centers",
+                          style: TextStyle(
+                            fontFamily:
+                                'Hobbio3', // Check if this font exists in your project
+                            fontWeight: FontWeight.w500,
+                            fontSize: 23,
+                          ),
                         ),
                       ),
                     ),
