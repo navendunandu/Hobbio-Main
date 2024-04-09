@@ -271,3 +271,17 @@ def viewfeedbacks(request):
         feedlist2.append({"ufeed_data":feed,"id":i.id,"user":user})
     return render(request,"Admin/ViewFeedbacks.html",{"data":feedlist1,"data2":feedlist2})
 
+def viewbookings(request):
+    booklist=[]
+    bookingdata=db.collection("tbl_booking").stream()
+    for i in bookingdata:
+        bdata=i.to_dict()
+        user=db.collection("tbl_user").document(bdata["user_id"]).get().to_dict()
+        pack=db.collection("tbl_package").document(bdata["package_id"]).get().to_dict()
+        course=db.collection("tbl_course").document(pack["course_id"]).get().to_dict()
+        center=db.collection("tbl_center").document(course["center_id"]).get().to_dict()
+        
+           
+        booklist.append({"book":bdata,"pack":pack,"course":course,"center":center,"user":user})
+        
+    return render(request,"Admin/ViewBookings.html",{"booking":booklist})

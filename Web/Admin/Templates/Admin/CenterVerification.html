@@ -1,75 +1,120 @@
+{% extends 'Admin/Header.html' %}
+{% load static %}
+{% block content %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Center Verification</title>
+    <style>
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            width: fit-content;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .card table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .card table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .card table th {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .accept-link {
+            color: green;
+        }
+
+        .reject-link {
+            color: rgb(233, 55, 75);
+        }
+    </style>
 </head>
 <body>
     <form action="" method="POST">
         {% csrf_token %}
         <center>
-        <h3>List Of Centers</h3>
-        <table border="1" >
-            <tr>
-                <td>Sl No:</td>
-                <td>Center Name:</td>
-                <td>Status:</td>
-                <td>More:</td>
-            </tr>
-            {% for i in data %}
-            <tr>
-                <td>{{forloop.counter}}</td>
-                <td>{{i.center_data.center_name}}</td>
-                <td><a href="{% url 'webadmin:center_accept' i.id %}">Accept</a><br>
-                <a href="{% url 'webadmin:center_reject' i.id %}">Reject</a></td>
-                <td>
-                    <a href="{% url 'webadmin:center_viewmore' i.id %}">View more</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-        <h3>List of Accepted Centers</h3>
-        <table border="1">
-            <tr>
-                <td>Sl No:</td>
-                <td>Center Name:</td>
-                <td>Status:</td>
-                
-            </tr>
-            {% for i in data2 %}
-            <tr>
-                <td>{{forloop.counter}}</td>
-                <td>{{i.center_data.center_name}}</td>
-                <td>
-                <a href="{% url 'webadmin:center_reject' i.id %}">Reject</a></td>
-               
-            </tr>
-            {% endfor %}
+            <div class="card">
+                <h3 style="font-weight: bold;">List Of Centers</h3><br>
+                <table>
+                    <tr>
+                        <th>Sl No</th>
+                        <th>Center Name</th>
+                        <th>Status</th>
+                        <th>More</th>
+                    </tr>
+                    {% for i in data %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{i.center_data.center_name}}</td>
+                        <td>
+                            <a href="{% url 'webadmin:center_accept' i.id %}" class="accept-link">Accept</a><br>
+                            <a href="{% url 'webadmin:center_reject' i.id %}" class="reject-link">Reject</a>
+                        </td>
+                        <td>
+                            <a href="{% url 'webadmin:center_viewmore' i.id %}">View more</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
 
-        </table>
-        <h3>List of Rejected Centers</h3>
-        <table border="1">
-            <tr>
-                <td>Sl No:</td>
-                <td>Center Name:</td>
-                <td>Status:</td>
-                
-            </tr>
-            {% for i in data3 %}
-            <tr>
-                <td>{{forloop.counter}}</td>
-                <td>{{i.center_data.center_name}}</td>
-                <td>
-                <a href="{% url 'webadmin:center_accept' i.id %}">Accept</a></td>
-               
-            </tr>
-            {% endfor %}
+            <div class="card">
+                <h3 style="font-weight: bold;">List of Accepted Centers</h3><br>
+                <table>
+                    <tr>
+                        <th>Sl No</th>
+                        <th>Center Name</th>
+                        <th>Status</th>
+                    </tr>
+                    {% for i in data2 %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{i.center_data.center_name}}</td>
+                        <td>
+                            <a href="{% url 'webadmin:center_reject' i.id %}" class="reject-link">Reject</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
 
-
-        </table>
-
+            <div class="card">
+                <h3 style="font-weight: bold;">List of Rejected Centers</h3><br>
+                <table>
+                    <tr>
+                        <th>Sl No</th>
+                        <th>Center Name</th>
+                        <th>Status</th>
+                    </tr>
+                    {% for i in data3 %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{i.center_data.center_name}}</td>
+                        <td>
+                            <a href="{% url 'webadmin:center_accept' i.id %}" class="accept-link">Accept</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </center>
     </form>
-</center>
 </body>
 </html>
+{% endblock content %}

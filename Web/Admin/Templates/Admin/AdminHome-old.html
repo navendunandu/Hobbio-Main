@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Home</title>
+</head>
+<body>
+    {% csrf_token %}
+    <center>
+       
+        <h2>Welcome {{admin.admin_name}}</h2>
+        <h3>Admin Home</h3>
+        <a href="{% url 'webadmin:district' %}">District</a><br>
+        <a href="{% url 'webadmin:city' %}">City</a><br>
+        <a href="{% url 'webadmin:category' %}">Category</a><br>
+        <a href="{% url 'webadmin:subcategory' %}">SubCategory</a><br>
+        <a href="{% url 'webadmin:centerverification' %}">Center Verification</a><br>
+        <a href="{% url 'webadmin:viewcomplaints' %}">View Complaints</a><br>
+        <a href="{% url 'webadmin:viewfeedbacks' %}">View Feedbacks</a><br>
+
+        
+
+
+    </center>
+    
+</body>
+</html>

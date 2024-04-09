@@ -7,6 +7,8 @@ from datetime import datetime
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
+from django.http import HttpResponse
+
 
 db=firestore.client()
 
@@ -189,28 +191,105 @@ def viewcenter(request,id):
     for i in centerdata:
         center=i.to_dict()
         centerlist.append({"center_data":center,"id":i.id})
+    
     coursedata=db.collection("tbl_course").where("center_id", "==", id).stream()
     courselist=[]
     for i in coursedata:
         course=i.to_dict()
         courselist.append({"course_data":course,"id":i.id})
-    return render(request,"User/ViewCenter.html",{"data":courselist,"center":centerlist})
+    print(courselist)     
+    return render(request,"User/ViewCenter.html",{"data":courselist,"center":centerlist,"cid":id})
 
 
 
 def complainttocenter(request,id):
     uid=request.session["uid"]
+    
+    
 
-    compdata=db.collection("tbl_centercomplaints").where("user_id", "==", request.session["uid"]).stream()
-    complist=[]
+    compdata = db.collection("tbl_centercomplaints").where("user_id", "==", request.session["uid"]).stream()
+
+    complist = []
     for i in compdata:
-        comp=i.to_dict()
-        complist.append({"comp_data":comp,"id":i.id})
+        comp = i.to_dict()
+        center = getCenter(comp['center_id'])
+        print('Center:',center)
+        complist.append({"comp_data": comp, "id": i.id,'center':center})
+
         
     if request.method=="POST":
         data={"ccomplaint_title":request.POST.get("txtctitle")
             ,"ccomplaint_content":request.POST.get("txtccontent"),"user_id":uid,"center_id":id}
         db.collection("tbl_centercomplaints").add(data)
-        return redirect("webuser:complainttocenter")
+        return redirect("webuser:viewcenter", id)
     else:
         return render(request,"User/ComplaintToCenter.html",{"data":complist})
+
+def getCenter(id):
+    centerdata = db.collection("tbl_center").document(id).get().to_dict()
+    if centerdata:
+        center_name = centerdata.get("center_name")
+        return center_name
+    return ''
+
+def bookpackage(request, id):
+    bookdata = db.collection("tbl_booking").where("user_id", "==", request.session["uid"]).where("package_id", "==", id).stream()
+
+    for i in bookdata:
+        packdata = db.collection("tbl_package").document(id).get().to_dict()
+        if packdata:
+            courseid = packdata["course_id"]
+            messages.success(request, 'You have already booked for this course!')
+            return redirect("webuser:viewpackages", courseid)
+        else:
+            return HttpResponse("Package not found")  # Handle case when no package is found for the specified ID
+    
+    uid = request.session["uid"]
+    packagedata = db.collection("tbl_package").document(id).get().to_dict()
+
+    if packagedata:
+        packamount = packagedata.get('package_cost', 0)  # Access 'package_cost' safely
+        data = {"user_id": uid, "package_id": id, "booking_date_time": datetime.now(), "booking_status": 0, "payment_amount": packamount}
+        db.collection("tbl_booking").add(data)
+        return redirect("webuser:payment")
+    else:
+        return HttpResponse("Package not found")  # Handle case when no package is found for the specified ID
+
+
+def payment(request):
+    print('Hi')
+    bookingdata=db.collection("tbl_booking").where("user_id","==",request.session["uid"]).where("booking_status","==",0).order_by("booking_date_time", direction=firestore.Query.DESCENDING).limit(1).stream()
+    bookingid = None  # Initialize bookingid to None in case no document is found
+    for doc in bookingdata:
+        bookingid = doc.id
+        break  # Break out of the loop after getting the first document
+
+    print(bookingid)
+
+        
+    if request.method=="POST":
+        db.collection("tbl_booking").document(bookingid).update({"booking_status":1})
+        return redirect("webuser:viewbookings")
+    else:
+        return render(request, "User/Payment.html")
+
+def viewbookings(request):
+    booklist=[]
+    bookingdata=db.collection("tbl_booking").where("user_id","==",request.session["uid"]).stream()
+    for i in bookingdata:
+        bdata=i.to_dict()
+        
+        pack=db.collection("tbl_package").document(bdata["package_id"]).get().to_dict()
+        course=db.collection("tbl_course").document(pack["course_id"]).get().to_dict()
+        center=db.collection("tbl_center").document(course["center_id"]).get().to_dict()
+        
+           
+        booklist.append({"book":bdata,"pack":pack,"course":course,"center":center})
+        
+    return render(request,"User/ViewBookings.html",{"booking":booklist})
+
+
+
+    
+    
+

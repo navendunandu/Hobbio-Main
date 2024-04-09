@@ -26,5 +26,10 @@ urlpatterns = [
 
     path('centerfeedback/',views.centerfeedback,name="centerfeedback"),
 
+    path('viewcomplaints/',views.viewcomplaints,name="viewcomplaints"),
+    path('replycomplaints/<str:id>',views.replycomplaints,name="replycomplaints"),
+
+    path('viewbookings/',views.viewbookings,name="viewbookings"),
+
     
 ]

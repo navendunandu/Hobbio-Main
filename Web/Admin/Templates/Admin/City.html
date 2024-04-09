@@ -1,3 +1,7 @@
+{% extends 'Admin/Header.html' %}
+{% load static %}
+{% block content %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,15 +12,24 @@
 <body>
     <center>
         <br><br>
-        <h3>Cities</h3>
+        <h3 style="font-weight: bold;">Cities</h3>
         <form action="" method="post">
             {% csrf_token %}
+            <div style=" box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            width: fit-content;
+            margin: auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #ffffff;">
             <table border="1" rules="none" cellspacing="10" cellpadding="30">
                 <tr>
                     
-                    <td>District Name</td>
+                    <td style=" padding: 10px;
+                    border: 1px solid #ddd;">District Name</td>
                     
-                    <td><select name="seldistrict" id="">
+                    <td style=" padding: 10px;
+                    border: 1px solid #ddd;"><select name="seldistrict" id="">
                         <option>--select--</option>
                         {% for i in data %}
                         {% if i.id == city_data.district_id %}
@@ -29,33 +42,57 @@
                     
                     
                 </tr>
-                <tr>
-                    <td>City Name</td>
-                    <td><input type="text" name="txtcity" id="" value="{{city_data.city_name}}"></td>
+                <tr >
+                    <td style=" padding: 10px;
+                    border: 1px solid #ddd;">City Name</td>
+                    <td style=" padding: 10px;
+                    border: 1px solid #ddd;"><input type="text" name="txtcity" id="" value="{{city_data.city_name}}"></td>
                 </tr>
                 <tr>
-                    <td colspan="2" align="center">
-                        <input type="submit" value="Save" name="btnsave">
-                        <input type="reset" value="Cancel" name="btncancel">
+                    <td colspan="2" align="center" style=" padding: 10px;
+                    border: 1px solid #ddd;">
+                        <input type="submit" value="Save" name="btnsave" style="background-color: #262e8a;
+                        color: white;
+                        padding: 10px 20px;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        margin-right: 10px;">
+                        <input type="reset" value="Cancel" name="btncancel" style="background-color: #262e8a;
+                        color: white;
+                        padding: 10px 20px;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        margin-right: 10px;">
                     </td>
                 </tr>
                
 
-            </table><br><br>
+            </table>
+        </div><br><br>
             <table border="1">
                 <tr>
-                    <td>Sl No</td>
-                    <td>District Name</td>
-                    <td>City Name</td>
-                    <td>Action</td>
+                    <td align="center"  style=" padding: 10px;
+                    border: 1px solid #ddd; font-weight: bold;">Sl No</td>
+                    <td align="center" style=" padding: 10px;
+                    border: 1px solid #ddd; font-weight: bold;">District Name</td>
+                    <td align="center" style=" padding: 10px;
+                    border: 1px solid #ddd; font-weight: bold;">City Name</td>
+                    <td align="center" style=" padding: 10px;
+                    border: 1px solid #ddd; font-weight: bold;">Action</td>
                 </tr>
                 {% for i in city  %}
                 <tr>
-                    <td>{{forloop.counter}}</td>
-                    <td>{{i.dis_name.district_name}}</td>
-                    <td>{{i.city_data.city_name}}</td>
-                    <td>
-                        <a href="{% url  'webadmin:delete_city' i.id %}">Delete</a>
+                    <td align="center" style=" padding: 10px;
+                    border: 1px solid #ddd; ">{{forloop.counter}}</td>
+                    <td align="center" style=" padding: 10px;
+                    border: 1px solid #ddd;">{{i.dis_name.district_name}}</td>
+                    <td align="center" style=" padding: 10px;
+                    border: 1px solid #ddd;">{{i.city_data.city_name}}</td>
+                    <td align="center" style=" padding: 10px;
+                    border: 1px solid #ddd;">
+                        <a href="{% url  'webadmin:delete_city' i.id %}" style="color: red;">Delete</a><br>
                         <a href="{% url  'webadmin:edit_city' i.id %}">Edit</a>
                     </td>
                 </tr>
@@ -67,3 +104,4 @@
     
 </body>
 </html>
+{% endblock content %}

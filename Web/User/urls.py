@@ -22,6 +22,10 @@ urlpatterns = [
 
     path('complainttocenter/<str:id>',views.complainttocenter,name="complainttocenter"),
 
+    path('bookpackage/<str:id>',views.bookpackage,name="bookpackage"),
+    path('payment/',views.payment,name="payment"),
+    path('viewbookings/',views.viewbookings,name="viewbookings"),
+
 
     
 

@@ -33,6 +33,7 @@
         <table border="1">
             <tr>
                 <td>SL No:</td>
+                <td>Center Name:</td>
                 <td>Complaint Title:</td>
                 <td>Complaint Content:</td>
                 <td>Center Reply:</td>
@@ -40,6 +41,7 @@
             {% for i in data  %}
             <tr>
                 <td>{{forloop.counter}}</td>
+                <td>{{i.center}}</td>
                 <td>{{i.comp_data.ccomplaint_title}}</td>
                 <td>{{i.comp_data.ccomplaint_content}}</td>
                 <td>

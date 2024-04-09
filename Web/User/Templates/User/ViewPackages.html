@@ -18,7 +18,7 @@
             <strong>Package Details: {{i.package_data.package_details}}</strong><br>
             <div>
                 
-                   <a href="">Book Package</a>
+                <a href="{% url 'webuser:bookpackage' i.id %}" onclick="return confirm('Do you want to book this course?')">Book Package</a>
                 
             </div>
         </p>
@@ -27,4 +27,17 @@
     </div>
 </form>
 </body>
+
+   
+    {% if messages %}
+        
+        {% for message in messages %}
+        <script>
+            // Display the message using JavaScript alert
+            alert("{{ message }}");
+        </script>
+        {% endfor %}
+    {% endif %}
+
 </html>
+

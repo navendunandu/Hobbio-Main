@@ -1,0 +1,78 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.0/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<title>Hobbio::View Bookings</title>
+</head>
+
+<body>
+<center>
+<h3>Booked Course Details</h3><br>
+<form method="post">
+    {% csrf_token %}
+<table width="1119" border="1" cellspacing="0" cellpadding="3" >
+  <tr>
+   	
+       <th width="175" >Booking Date and Time</th>
+    
+    <th width="175" >Center Name</th>
+     <th width="175" >Center Contact</th>
+     <th width="175" >Center Email</th>
+     <th width="175" >Center Address</th>
+     
+    <th width="175">Course Name</th>
+    
+    <th width="175" >Package Name</th>
+    <th width="175" >Package Cost and Duration</th>
+    <th width="175" >Status</th>
+    
+
+  </tr>
+  {% for i in booking %}
+  <tr>
+
+
+    
+    <td align="center" >{{i.book.booking_date_time}}</td>
+    <td align="center" >{{i.center.center_name}}</td>
+    <td align="center" >{{i.center.center_contact}}</td>
+    <td align="center" >{{i.center.center_email}}</td>
+
+    <td align="center" >{{i.center.center_area}}
+        <br>{{i.center.center_building}}
+        <br>{{i.center.center_landmark}}
+    </td>
+
+    <td align="center">{{i.course.course_name}}</td>
+    
+    <td align="center" >{{i.pack.package_name}}</td>
+    <td align="center" >{{i.pack.package_cost}}<br>{{i.pack.package_duration}}
+    </td>
+    <td align="center">
+      <a href="" style="color:red;" >Cancel Booking</a>
+    </td>
+   
+  </tr>
+  {% endfor %}
+ 
+
+</table>
+
+<br /><br>
+
+
+</form>
+</center>
+
+
+
+
+
+
+
+</body>
+
+</html>

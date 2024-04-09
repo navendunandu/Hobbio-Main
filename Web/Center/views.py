@@ -91,7 +91,7 @@ def centeraddcourse(request):
         cat=i.to_dict()
         catlist.append({"cat_data":cat,"id":i.id})
     
-    coursedata=db.collection("tbl_course").stream()
+    coursedata=db.collection("tbl_course").where("center_id","==",id).stream()
     courselist=[]
     for i in coursedata:
         course=i.to_dict()
@@ -122,7 +122,7 @@ def ajaxsubcategory(request):
 
 def centeraddpackage(request,id):
     request.session["coid"]=id
-    packdata=db.collection("tbl_package").stream()
+    packdata=db.collection("tbl_package").where("course_id","==",request.session["coid"]).stream()
     packlist=[]
     for i in packdata:
         pack=i.to_dict()
@@ -141,7 +141,7 @@ def centeraddpackage(request,id):
 
 def centeraddimage(request,id):
     request.session["coid"]=id
-    imagedata=db.collection("tbl_gallery").stream()
+    imagedata=db.collection("tbl_gallery").where("course_id","==",request.session["coid"]).stream()
     imagelist=[]
     for i in imagedata:
         images= i.to_dict()
@@ -206,4 +206,50 @@ def centerfeedback(request):
     else:
         return render(request,"Center/CenterFeedback.html")
 
+def viewcomplaints(request):
+    id=request.session["cid"]
 
+    ccompdata = db.collection("tbl_centercomplaints").where("center_id", "==", id).stream()
+    ccomplist2 = []
+    for i in ccompdata:
+        comp = i.to_dict()
+        if comp["user_id"] != 0:
+            user = db.collection("tbl_user").document(comp["user_id"]).get().to_dict()
+            ccomplist2.append({"ccomp_data": comp, "id": i.id, "user": user})
+    return render(request,"Center/ViewComplaints.html",{"data2":ccomplist2})
+
+def replycomplaints(request,id):
+    if request.method=="POST":
+        db.collection("tbl_centercomplaints").document(id).update({"ccomplaint_reply":request.POST.get("txtreply")})
+        return redirect("webcenter:viewcomplaints")
+    else:
+        return render(request,"Center/ReplyComplaints.html")
+
+def viewbookings(request):
+    booklist = []    
+    coursedata = db.collection("tbl_course").where("center_id", "==", request.session["cid"]).stream()      
+    for course in coursedata:          
+        course_data = course.to_dict()                
+        packagedata = db.collection("tbl_package").where("course_id", "==", course.id).stream()            
+        for package in packagedata:               
+            package_data = package.to_dict()           
+            bookdata = getBook(package.id)    
+            booklist.append({"course": course_data, "pack": package_data, "user": bookdata[0]}) 
+                      
+    return render(request, "Center/ViewBookings.html", {"booking": booklist})
+
+
+def getBook(id):
+    booking_list = []  
+    booking_list2 = []  
+    bookdata = db.collection("tbl_booking").where("package_id", "==", id).stream()    
+    for i in bookdata:
+        bdata = i.to_dict()                     
+        userdata = db.collection("tbl_user").document(bdata["user_id"]).get().to_dict()      
+                
+        # booking_list.append({"booking": bdata, "user": userdata}) 
+        booking_list2.append({**bdata,**userdata}) 
+        # print("output:",booking_list)
+        # print("output2:",booking_list2)
+         
+    return booking_list2
