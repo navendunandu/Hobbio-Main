@@ -26,6 +26,10 @@ urlpatterns = [
     path('payment/',views.payment,name="payment"),
     path('viewbookings/',views.viewbookings,name="viewbookings"),
 
+    path('ajaxlike/',views.ajaxlike,name="ajaxlike"),
+    path('favorites/',views.favorites,name="favorites"),
+    path('favdel/<str:id>',views.favdel,name="favdel"),
+
 
     
 

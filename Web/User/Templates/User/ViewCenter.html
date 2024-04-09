@@ -1,37 +1,105 @@
+{% extends 'User/Header.html' %}
+{% load static %}
+{% block content %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .center {
+            text-align: center;
+        }
+        .course-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .course-item {
+            border: 1px solid #000;
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 80%;
+            position: relative; /* Add position relative for absolute positioning */
+        }
+        .course-item a.button {
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .heart-icon {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+        }
+    </style>
     <title>View Center</title>
 </head>
 <body>
-    <center>
+    <div class="center">
         <br><br>
         <h3>{{center_data.center_name}}</h3>
-    <form action="" method="post">
-        {% csrf_token %}
-
-        <table border="1">
-            <tr>
-                <td>Course Name:</td>
-                <td>Course Description:</td>
-                <td></td>
-                
-            </tr>
-            {% for i in data  %}
-            <tr>
-                
-                <td>{{i.course_data.course_name}}</td>
-                <td>{{i.course_data.course_des}}</td>
-                <td><a href="{% url 'webuser:viewpackages' i.id %}">View Packages</a><br>
-                    <a href="{% url 'webuser:viewimages' i.id %}">View Images</a></td>
-                
-            </tr>
-            {% endfor %}
-        </table>
-        <a href="{% url 'webuser:complainttocenter' cid  %}">Have Complaints...?</a>
-    </form>
-</center> 
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="course-container">
+                {% for i in data %}
+                <div class="course-item">
+                    <p><strong>Course Name:</strong> {{i.course_data.course_name}}</p>
+                    <p><strong>Course Description:</strong> {{i.course_data.course_des}}</p>
+                    <div>
+                        <a href="{% url 'webuser:viewpackages' i.id %}" class="button">View Packages</a>
+                        <a href="{% url 'webuser:viewimages' i.id %}" class="button">View Images</a>
+                    </div>
+                    <div class="container like" style="
+                    display: flex;
+                    justify-content: flex-end;
+                ">
+                        {% if i.like == 0 %}
+                        <i class="fa fa-heart-o" id="likebtn{{forloop.counter}}" onclick="like('{{i.id}}','likebtn{{forloop.counter}}')" ></i> <!-- Heart icon -->
+                        {% else %}
+                        <i class="fa fa-solid fa-heart text-danger" id="likebtn{{forloop.counter}}" onclick="like('{{i.id}}','likebtn{{forloop.counter}}')" ></i> 
+                        {% endif %}
+                    </div>
+                    
+                </div>
+                {% endfor %}
+            </div>
+            <a href="{% url 'webuser:complainttocenter' cid  %}">Have Complaints...?</a>
+        </form>
+    </div> 
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    function like(cid,id) {
+        // console.log(postid,id,count);
+        var ur = "{% url 'webuser:ajaxlike' %}"
+        $.ajax({
+            url: ur,
+            data: { courseid: cid, },
+            success: function (data) {
+                if (data == 0)
+                {
+                    document.getElementById(id).classList.remove("fa-solid", "fa-heart", "text-danger");
+                    document.getElementById(id).classList.add("fa-heart-o");
+
+                }
+                else
+                {
+                    document.getElementById(id).classList.remove("fa-heart-o");
+                    document.getElementById(id).classList.add("fa-solid", "fa-heart", "text-danger");
+                }
+            },
+        });
+    }
+    </script>
 </html>
+{% endblock content %}
+
+

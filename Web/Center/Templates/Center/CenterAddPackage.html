@@ -1,3 +1,6 @@
+{% extends 'Center/Header.html' %}
+{% load static %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,6 +62,7 @@
                 </td>
                 </tr>
                 {% endfor %}
+                </table>
     </center>
     
 </body>
@@ -70,3 +74,4 @@
 {% endif %}
 
 </html>
+{% endblock content %}

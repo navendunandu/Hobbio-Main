@@ -1,0 +1,72 @@
+{% extends 'User/Header.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.0/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<title>Hobbio::View Favorites</title>
+</head>
+
+<body>
+    <form action="">
+        {% csrf_token %}
+<center margin-top: 50px;><br />
+<h2>Your Favorite Courses And Centers</h2><br />
+
+<table border="1" cellspacing="0" cellpadding="3" style="width: 100%;
+    border-collapse: collapse;
+    margin-top: 18px;">
+<tr>
+
+
+<td align="center" >COURSE NAME</td>
+<td align="center" >COURSE DESCRIPTION</td>
+<td align="center" >CENTER NAME</td>
+<td align="center">CENTER CONTACT</td>
+<td align="center" >CENTER TYPE</td>
+<td align="center" >CENTER ADDRESS</td>
+
+
+<td align="center" >CENTER EMAIL</td>
+<td align="center" >ACTION</td>
+</tr>
+{% for i in data %}
+<tr>
+
+
+
+
+
+    
+    
+     <td align="center" >{{i.course.course_name}}</td>
+      <td align="center" >{{i.course.course_des}}</td>
+       <td align="center" >{{i.center.center_name}}</td>
+        <td align="center" >{{i.center.center_contact}}</td>
+        <td align="center" >{{i.center.center_type}}</td>
+         <td align="center" >{{i.center.center_area}}<br>{{i.center.center_building}}<br>{{i.center.center_landmark}}
+        </td>
+         
+         <td align="center" >{{i.center.center_email}}</td>
+         <td align="center" ><a href="{% url  'webuser:favdel' i.id %}">Remove</a></td>
+    
+       
+           </tr>
+
+
+
+{% endfor %}
+</table><br />
+
+
+</center>
+</form>
+</body>
+
+</html>
+
+{% endblock content %}

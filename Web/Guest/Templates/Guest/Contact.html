@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Us - Hobbio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(to bottom, #00394f, #17a2b8);
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-form label {
+            font-weight: bold;
+        }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .contact-form button {
+            background-color: #4287f5;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(to bottom, #00394f, #17a2b8);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Contact Us</h1><br>
+        <a href="{% url 'webguest:Home'%}" style=" display: inline-block;
+        padding: 10px 20px;
+        background: linear-gradient(to bottom, #00394f, #00394f);
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-size: 13px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;">Go Back</a>
+    </header>
+
+    <div class="container">
+        <div class="contact-form">
+            <h2>Get in Touch</h2>
+            <p>If you have any questions or feedback, please feel free to contact us.</p>
+
+            <form >
+                <label for="name">Name</label>
+                <p>Hobbio...Follow Your Passion</p>
+              
+
+                <label for="email">Email</label>
+                <p>hobbiomini@gmail.com</p>
+                <label for="contact">Contact</label>
+                <p>8606147681</p>
+                <a href="" class="button">Join Hobbio</a>
+                
+            </form>
+        </div>
+    </div>
+</body>
+</html>

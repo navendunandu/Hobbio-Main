@@ -1,9 +1,83 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(to right, #f65d5f, #f78a33);
+            font-family: 'Playfair Display', serif;
+            color: #fff;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+			height:70%;
+        }
+
+        h1 {
+            color: #fff;
+            margin-bottom: 20px;
+			
+			
+        }
+
+        form {
+            text-align: left;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        td {
+            padding: 10px;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        #btnlogin {
+            background: linear-gradient(to right, #f78a33,#f65d5f);
+            color: #fff;
+            cursor: pointer;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        #btnlogin:hover {
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <center><br><br>
@@ -26,4 +100,151 @@
 
 </center>
 </body>
+</html> -->
+
+
+
+            
+     
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<title>Hobbio::Login</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(to right, #00394f, #17a2b8);
+            
+            color: #fff;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+			height:70%;
+        }
+
+        h1 {
+            color: #fff;
+            margin-bottom: 20px;
+			
+			
+        }
+
+        form {
+            text-align: left;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        td {
+            padding: 10px;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        #btnlogin {
+            background: linear-gradient(to right, #00394f,#17a2b8);
+            color: #fff;
+            cursor: pointer;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        #btnlogin:hover {
+            background: linear-gradient(to right, #00394f, #17a2b8);
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+<div class="card">
+        <h1 align="center" >Login</h1>
+        <form id="form1" name="form1" method="post" action="">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td style='font-size: 20px; '>Email</td>
+                    <td ><input type="text" name="txtemail" id="txtemail" style='font-size: 18px; ' /></td>
+                </tr>
+                <tr>
+                    <td style='font-size: 20px; '>Password</td>
+                    <td><input type="password" name="txtpassword" id="txtpassword" style='font-size: 18px; ' />
+                    <i id="togglePassword" class="fas fa-eye" 
+                    style="color: rgb(54 138 180);
+    position: relative;
+    top: -32px;
+    right: -216px;"></i></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center"><input type="submit" name="btnlogin" id="btnlogin" value="Login" /></td>
+                </tr>
+            </table>
+            <div>
+				
+                <p align="center">New User..? <a href="{% url 'webguest:userreg'%}">Sign in</a></p>
+                <p align="center">New Center..? <a href="{% url 'webguest:centerreg'%}">Sign in</a></p>
+				
+                <p align="center"><a href="ForgotPassword.php">Forgot Password..?</a></p>
+                <p align="center"><a href="{% url 'webguest:Home'%}">Home</a></p>
+            </div>
+        </form>
+    </div>
+</body>
+<script>
+    const togglePassword = document.getElementById("togglePassword");
+    const passwordInput = document.getElementById("txtpassword");
+  
+    togglePassword.addEventListener("click", function () {
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        togglePassword.classList.remove("fa-eye");
+        togglePassword.classList.add("fa-eye-slash");
+      } else {
+        passwordInput.type = "password";
+        togglePassword.classList.remove("fa-eye-slash");
+        togglePassword.classList.add("fa-eye");
+      }
+    });
+  </script>
+  {% if msg %}
+  <script>
+    alert("Please Provide Correct Email And Password...")
+  </script>
+  {% endif %}
 </html>
+
+

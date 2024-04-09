@@ -186,19 +186,50 @@ def viewimages(request,id):
     return render(request,"User/ViewImages.html",{"data":imagelist})
 
 def viewcenter(request,id):
+    uid=request.session["uid"]
     centerdata=db.collection("tbl_center").where("center_id","==",id).stream()
     centerlist=[]
     for i in centerdata:
         center=i.to_dict()
         centerlist.append({"center_data":center,"id":i.id})
-    
+
     coursedata=db.collection("tbl_course").where("center_id", "==", id).stream()
     courselist=[]
     for i in coursedata:
         course=i.to_dict()
-        courselist.append({"course_data":course,"id":i.id})
-    print(courselist)     
+        like=getLike(i.id,uid)
+        print("Like:",like)
+        courselist.append({"course_data":course,"id":i.id,"like":like})
     return render(request,"User/ViewCenter.html",{"data":courselist,"center":centerlist,"cid":id})
+
+def getLike(id,uid):
+    fav=db.collection("tbl_favorites").where("course_id","==",id).where("user_id","==",uid).get()
+    count=len(fav)
+    if count > 0:
+        return 1
+    else:
+        return 0
+
+    
+def ajaxlike(request):
+    user_id = request.session.get("uid")
+    course_id = request.GET.get("courseid")
+    check_query = db.collection("tbl_favorites").where("user_id", "==", user_id).where("course_id", "==", course_id)
+    check_snapshots = check_query.get()
+    count = len(check_snapshots)
+
+    if count > 0:
+        for doc in check_snapshots:
+            db.collection("tbl_favorites").document(doc.id).delete()
+        return HttpResponse("0")  
+    else:
+        data = {"user_id": user_id, "course_id": course_id}
+        db.collection("tbl_favorites").add(data)
+        return HttpResponse("1")  
+
+
+
+
 
 
 
@@ -287,6 +318,20 @@ def viewbookings(request):
         booklist.append({"book":bdata,"pack":pack,"course":course,"center":center})
         
     return render(request,"User/ViewBookings.html",{"booking":booklist})
+
+def favorites(request):
+    favlist=[]
+    favdata=db.collection("tbl_favorites").where("user_id","==",request.session["uid"]).stream()
+    for i in favdata:
+        fdata=i.to_dict()
+        course=db.collection("tbl_course").document(fdata["course_id"]).get().to_dict()
+        center=db.collection("tbl_center").document(course["center_id"]).get().to_dict()
+        favlist.append({"course":course,"center":center,"id":i.id})
+    return render(request,"User/Favorites.html",{"data":favlist})
+
+def favdel(request,id):
+    db.collection("tbl_favorites").document(id).delete()
+    return redirect("webuser:favorites")
 
 
 

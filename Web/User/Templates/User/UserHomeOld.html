@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Home</title>
+</head>
+<body>
+    {% csrf_token %}
+    <center>
+        <h2>welcome {{user.user_name}}</h2>
+        <h3>User Home</h3><br>
+       <a href="{% url 'webuser:userprofile' %}">Profile</a><br>
+       <a href="{% url 'webuser:usereditprofile' %}">Edit Profile</a><br>
+       <a href="{% url 'webuser:userchangepassword' %}">Change Password</a><br>
+       <a href="{% url 'webuser:usercomplaint'  %}">Post website complaints</a><br>
+       <a href="{% url 'webuser:userfeedback'  %}">Feedbacks</a><br>
+       <a href="{% url 'webuser:searchcenters'  %}">Search Centers</a><br>
+       <a href="{% url 'webuser:viewbookings'  %}">View Bookings</a><br>
+       
+
+    </center>
+</body>
+</html>
