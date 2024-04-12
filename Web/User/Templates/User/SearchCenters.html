@@ -46,19 +46,29 @@
 <body>
     <div class="ld" id="loader"><span class="loader"></span></div>
     <center>
-        <form action="" method="post">
+        <form action="" method="post"><br>
             {% csrf_token %}
-            <h2>Search Centers</h2><br><br>
+            <h2>Search Centers</h2><br>
             <table border="1" rules="none">
                 <tr>
-                    <td><select name="seldistrict" id="seldistrict">
+                    <td><select name="seldistrict" id="seldistrict" style="padding: 8px;
+                        font-size: 16px;
+                        border: 1px solid #ccc;
+                        border-radius: 4px;
+                        width: 100%;
+                        max-width: 200px; ">
                             <option value="">---District---</option>
                             {% for i in district %}
                             <option value="{{i.id}}">{{i.dis_data.district_name}}</option>
 
                             {% endfor %}
                         </select></td>
-                    <td><select name="selcity" id="selcity">
+                    <td><select name="selcity" id="selcity" style="padding: 8px;
+                        font-size: 16px;
+                        border: 1px solid #ccc;
+                        border-radius: 4px;
+                        width: 100%;
+                        max-width: 200px; ">
                             <option value="">---City---</option>
 
 
@@ -83,29 +93,38 @@
                 </tr> -->
 
             </table>
-
-            <h3>List Of Centers</h3>
-            <table border="1"  id="result">
+<br>
+           
+            <div style="width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); ">
+             <h3>List Of Centers</h3>
+            <table border="1"  id="result" style=" margin: 0 auto;
+            width: 100%;">
                 <tr>
-                    <td>Center Name</td>
-                    <td>Center Type</td>
-                    <td>Contact</td>
-                    <td>Email</td>
-                    <td>Logo</td>
-                    <td>Action</td>
+                    <th style=" text-align: center;">Center Name</th>
+                    <th style=" text-align: center;">Center Type</th>
+                    <th style=" text-align: center;">Contact</th>
+                    <th style=" text-align: center;">Email</th>
+                    <th style=" text-align: center;">Logo</th>
+                    <th style=" text-align: center;">Action</th>
                 </tr>
                     {% for i in center %}
                 <tr>
-                    <td>{{i.data.center_name}}</td>
-                    <td>{{i.data.center_type}}</td>
-                    <td>{{i.data.center_contact}}</td>
-                    <td>{{i.data.center_email}}</td>
-                    <td><img src="{{i.data.center_logo}}" width="50" height="50" alt=""></td>
-                    <td><a href="{% url 'webuser:viewcenter' i.id %}">View Center</a></td>
+                    <td align="center">{{i.data.center_name}}</td>
+                    <td align="center">{{i.data.center_type}}</td>
+                    <td align="center">{{i.data.center_contact}}</td>
+                    <td align="center">{{i.data.center_email}}</td>
+                    <td align="center"><img src="{{i.data.center_logo}}" width="50" height="50" alt=""></td>
+                    <td align="center"><a href="{% url 'webuser:viewcenter' i.id %}">View Center</a></td>
                 </tr>
                 {% endfor %}
 
             </table>
+        </div>
 
 
         </form>

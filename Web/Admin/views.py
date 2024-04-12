@@ -2,6 +2,10 @@ from django.shortcuts import render,redirect
 import firebase_admin
 from firebase_admin import storage,auth,firestore,credentials
 import pyrebase
+import json
+from django.core.mail import send_mail
+from django.conf import settings
+from django.contrib import messages
 
 
 db=firestore.client()
@@ -218,8 +222,23 @@ def centerverification(request):
     
     return render(request,"Admin/CenterVerification.html",{'data':centerlist,"data2":centerlist2,"data3":centerlist3})
 
+
+
 def center_accept(request,id):
     db.collection("tbl_center").document(id).update({"center_status":1})
+    center=db.collection("tbl_center").document(id).get().to_dict()
+    email=center['center_email']
+    send_mail(
+        'Welcome to Hobbio',
+        'Dear ' + center['center_name'] + ',\n\n'
+        'We are excited to welcome you to Hobbio.'
+        'Thank you for choosing Hobbio. If you have any questions or need assistance, feel free to reach out.\n\n'
+        'Best regards,\n'
+        'The Hobbio Team',
+        settings.EMAIL_HOST_USER,
+        [email],
+    )     
+    
     return redirect("webadmin:centerverification")
 
 def center_reject(request,id):
@@ -273,7 +292,7 @@ def viewfeedbacks(request):
 
 def viewbookings(request):
     booklist=[]
-    bookingdata=db.collection("tbl_booking").stream()
+    bookingdata=db.collection("tbl_booking").where("booking_status","==",1).stream()
     for i in bookingdata:
         bdata=i.to_dict()
         user=db.collection("tbl_user").document(bdata["user_id"]).get().to_dict()
@@ -285,3 +304,144 @@ def viewbookings(request):
         booklist.append({"book":bdata,"pack":pack,"course":course,"center":center,"user":user})
         
     return render(request,"Admin/ViewBookings.html",{"booking":booklist})
+
+def cancelledbookings(request):
+    booklist=[]
+    bookingdata=db.collection("tbl_booking").where("booking_status","==",2).stream()
+    for i in bookingdata:
+        bdata=i.to_dict()
+        user=db.collection("tbl_user").document(bdata["user_id"]).get().to_dict()
+        pack=db.collection("tbl_package").document(bdata["package_id"]).get().to_dict()
+        course=db.collection("tbl_course").document(pack["course_id"]).get().to_dict()
+        center=db.collection("tbl_center").document(course["center_id"]).get().to_dict()
+        
+           
+        booklist.append({"book":bdata,"pack":pack,"course":course,"center":center,"user":user,"id":i.id})
+        
+    return render(request,"Admin/CancelledBooking.html",{"booking":booklist})
+
+def send(request,id):
+    db.collection("tbl_booking").document(id).update({"booking_status":3})
+    book=db.collection("tbl_booking").document(id).get().to_dict()
+    user=db.collection("tbl_user").document(book["user_id"]).get().to_dict()
+    email=user['user_email']
+    send_mail(
+        'Welcome to Hobbio',
+        'Dear ' + user['user_name'] + ',\n\n'
+        'Your amount for the cancelled booking has been refunded to your account.'
+        'Thank you for choosing Hobbio. If you have any questions or need assistance, feel free to reach out.\n\n'
+        'Best regards,\n'
+        'The Hobbio Team',
+        settings.EMAIL_HOST_USER,
+        [email],
+    )     
+    
+    return redirect("webadmin:cancelledbookings")
+
+def categoryreport(request):    
+    bookids = []
+    catlist = []
+    xlist=[]
+    ylist=[]
+    cdata = db.collection("tbl_category").stream()     
+    for c in cdata:
+        category = c.to_dict()
+        sdata = db.collection("tbl_subcategory").where("category_id", "==", c.id).stream()
+        for s in sdata:
+            subcategory = s.to_dict()
+            codata = db.collection("tbl_course").where("subcategory_id", "==", s.id).stream()
+            for co in codata:
+                course = co.to_dict()
+                pdata = db.collection("tbl_package").where("course_id", "==", co.id).stream()
+                for p in pdata:
+                    package = p.to_dict()
+                    bdata = db.collection("tbl_booking").where("package_id", "==", p.id).stream()
+                    for b in bdata:
+                        book = b.to_dict()
+                        bookids.append(b.id)
+        count = len(bookids)
+        catlist.append({"catname": category['category_name'],"count":count})
+        bookids=[]
+        # print("data:",catlist)
+    for i in catlist:
+        
+        xlist.append(i['catname'])   
+        ylist.append(i['count'])
+    x_json = json.dumps(xlist)
+    y_json = json.dumps(ylist)
+    # print("xx:",xlist)
+    # print("yy:",ylist)         
+    return render(request, "Admin/CategoryReport.html", {"x": x_json,"y":y_json})
+
+def learnersreport(request):
+    xlist=[]
+    ylist=[]
+    centerlist=[]
+    bookids=[]
+    cdata=db.collection("tbl_center").stream()
+    for c in cdata:
+        center=c.to_dict()
+        codata=db.collection("tbl_course").where("center_id","==",c.id).stream()
+        for co in codata:
+            course=co.to_dict()
+            pdata=db.collection("tbl_package").where("course_id","==",co.id).stream()
+            for p in pdata:
+                package=p.to_dict()
+                bdata=db.collection("tbl_booking").where("package_id","==",p.id).stream()
+                for b in bdata:
+                        book = b.to_dict()
+                        bookids.append(b.id)
+        count = len(bookids)
+        centerlist.append({"center": center['center_name'],"count":count})
+        bookids=[]
+        # print("data:",catlist)
+    for i in centerlist:
+        
+        xlist.append(i['center'])   
+        ylist.append(i['count'])
+    x_json = json.dumps(xlist)
+    y_json = json.dumps(ylist)
+    # print("xx:",xlist)
+    # print("yy:",ylist)         
+    return render(request, "Admin/LearnersReport.html", {"x": x_json,"y":y_json})
+
+def subcategoryreport(request):    
+    bookids = []
+    scatlist = []
+    xlist=[]
+    ylist=[]
+    sdata = db.collection("tbl_subcategory").stream()       
+    for s in sdata:        
+        subcategory = s.to_dict()
+        codata = db.collection("tbl_course").where("subcategory_id", "==", s.id).stream()
+        for co in codata:
+            course = co.to_dict()
+            pdata = db.collection("tbl_package").where("course_id", "==", co.id).stream()
+            for p in pdata:
+                package = p.to_dict()
+                bdata = db.collection("tbl_booking").where("package_id", "==", p.id).stream()
+                for b in bdata:
+                    book = b.to_dict()
+                    bookids.append(b.id)
+        count = len(bookids)
+        scatlist.append({"scatname": subcategory['subcategory_name'],"count":count})
+        bookids=[]
+        # print("data:",catlist)
+    for i in scatlist:
+        
+        xlist.append(i['scatname'])   
+        ylist.append(i['count'])
+    x_json = json.dumps(xlist)
+    y_json = json.dumps(ylist)
+    # print("xx:",xlist)
+    # print("yy:",ylist)         
+    return render(request, "Admin/SubcategoryReport.html", {"x": x_json,"y":y_json})
+
+def logout(request):
+    del request.session["aid"]
+    return redirect("webguest:login")
+
+
+
+
+

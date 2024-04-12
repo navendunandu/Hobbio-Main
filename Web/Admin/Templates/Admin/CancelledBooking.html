@@ -1,0 +1,81 @@
+
+{% extends 'Admin/Header.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Hobbio::Cancelled Bookings</title>
+<style>
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: fit-content;
+        margin: auto;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #ffffff;
+        margin-bottom: 20px;
+    }
+
+    .card table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .card table td, .card table th {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: center;
+    }
+</style>
+</head>
+
+<body>
+<center><br />
+    <div class="card">
+<center>
+    <h3 style="font-weight: bold;" >Cancelled Bookings</h3><br>
+</center>
+<form >
+            {% csrf_token %}
+<table border="1" cellpadding="10" cellspacing="0" style="width: 100%;
+            border: 1px solid #ccc;">
+<tr>
+<th align="center" >SL No</th>
+<th align="center" >User Name and Email</th>
+
+<th align="center" >Package Name and Cost</th>
+<th align="center" >Course Name</th>
+<th align="center" >Center Name and Email</th>
+
+
+<th align="center" >Send Email</th>
+</tr>
+{% for i in booking %}
+<tr>
+       <td align="center" >{{forloop.counter}}</td>
+       <td align="center" >{{i.user.user_name}}<br>{{i.user.user_email}}
+      <br></td>
+       <td align="center" >{{i.pack.package_name}}<br>{{i.pack.package_cost}}</td>
+       <td align="center" >{{i.course.course_name}}</td>
+       <td align="center" >{{i.center.center_name}}<br>{{i.center.center_email}}</td>
+       <td align="center" ><a href="{% url 'webadmin:send' i.id%}"
+       style="color:red">
+       Send</a>
+    </td>
+
+       </tr>
+       {% endfor %}
+
+</table>
+</form>
+</div>
+</center>
+
+</body>
+
+</html>
+{% endblock content %}

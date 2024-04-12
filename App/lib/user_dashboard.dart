@@ -8,6 +8,8 @@ import 'package:hobbio/user_profile.dart';
 import 'package:hobbio/user_complaints.dart';
 import 'package:hobbio/user_feedbacks.dart';
 import 'package:hobbio/search_centers.dart';
+import 'package:hobbio/favorites.dart';
+import 'package:hobbio/bookings.dart';
 
 class UserDashboard extends StatefulWidget {
   const UserDashboard({super.key});
@@ -27,7 +29,7 @@ class _UserDashboardState extends State<UserDashboard> {
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(
-                  'assets/Blue and White Illustrated Login Page Mobile Prototype.png'), // Replace 'assets/bg2.jpg' with your image path
+                  'assets/bg.png'), // Replace 'assets/bg2.jpg' with your image path
               fit: BoxFit.fill,
               alignment: Alignment.centerRight, // Adjust the alignment here
             ),
@@ -56,7 +58,7 @@ class _UserDashboardState extends State<UserDashboard> {
                     decoration: BoxDecoration(
                       border: Border(
                         left: BorderSide(
-                          color: Color(0xDAFC8D7E), // Border color
+                          color: Color.fromARGB(212, 45, 128, 205), // Border color
                           width: 10, // Border thickness
                         ),
                       ),
@@ -138,44 +140,60 @@ class _UserDashboardState extends State<UserDashboard> {
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  Container(
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          left: 30, top: 10), // Adjust the padding as needed
-                      child: Text(
-                        "View Bookings",
-                        style: TextStyle(
-                          fontFamily:
-                              'Hobbio3', // Check if this font exists in your project
-                          fontWeight: FontWeight.w500,
-                          fontSize: 23,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+             Row(
+  children: [
+    Container(
+      child: Padding(
+        padding: EdgeInsets.only(left: 30, top: 10), 
+        child: GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ViewBookingPage(),
               ),
+            );
+          },
+          child: Text(
+            "View Bookings",
+            style: TextStyle(
+              fontFamily: 'Hobbio3', // Check if this font exists in your project
+              fontWeight: FontWeight.w500,
+              fontSize: 23,
+            ),
+          ),
+        ),
+      ),
+    ),
+  ],
+),
+
               Row(
-                children: [
-                  Container(
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          left: 30, top: 10), // Adjust the padding as needed
-                      child: Text(
-                        "Favorites",
-                        style: TextStyle(
-                          fontFamily:
-                              'Hobbio3', // Check if this font exists in your project
-                          fontWeight: FontWeight.w500,
-                          fontSize: 23,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+  children: [
+    Container(
+      child: Padding(
+        padding: EdgeInsets.only(left: 30, top: 10), // Adjust the padding as needed
+        child: GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => FavoritesPage()),
+            );
+          },
+          child: Text(
+            "Favorites",
+            style: TextStyle(
+              fontFamily: 'Hobbio3', // Check if this font exists in your project
+              fontWeight: FontWeight.w500,
+              fontSize: 23,
+            ),
+          ),
+        ),
+      ),
+    ),
+  ],
+),
+
               Row(
                 children: [
                   Container(

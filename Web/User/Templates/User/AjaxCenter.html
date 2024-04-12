@@ -14,6 +14,7 @@
     <td>{{i.data.center_contact}}</td>
     <td>{{i.data.center_email}}</td>
     <td><img src="{{i.data.center_logo}}" width="50" height="50" alt=""></td>
+    <td align="center"><a href="{% url 'webuser:viewcenter' i.id %}">View Center</a></td>
 </tr>
 {% endfor %}
 </table>

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hobbio/user_editprofile.dart';
 
 class UserProfilePage extends StatelessWidget {
   @override
@@ -57,7 +58,7 @@ class UserProfile extends StatelessWidget {
         ),
         SizedBox(height: 20.0),
         Text(
-          'John Doe',
+          'Sheen',
           style: TextStyle(
             fontSize: 18.0,
             fontFamily: 'Hobbio8',
@@ -66,7 +67,16 @@ class UserProfile extends StatelessWidget {
         ),
         SizedBox(height: 10.0),
         Text(
-          'Email: john.doe@example.com',
+  'Email: fathimasheen524@gmail.com',
+  style: TextStyle(
+    fontSize: 18.0,
+    fontFamily: 'Hobbio8',
+  ),
+  softWrap: false,
+),
+        SizedBox(height: 10.0),
+        Text(
+          'Contact: 8606147681',
           style: TextStyle(
             fontSize: 18.0,
             fontFamily: 'Hobbio8',
@@ -74,7 +84,7 @@ class UserProfile extends StatelessWidget {
         ),
         SizedBox(height: 10.0),
         Text(
-          'Contact: +1234567890',
+          'House Name: Karolil',
           style: TextStyle(
             fontSize: 18.0,
             fontFamily: 'Hobbio8',
@@ -82,7 +92,7 @@ class UserProfile extends StatelessWidget {
         ),
         SizedBox(height: 10.0),
         Text(
-          'House Name: ABC House',
+          'Area: Punnamattom',
           style: TextStyle(
             fontSize: 18.0,
             fontFamily: 'Hobbio8',
@@ -90,7 +100,7 @@ class UserProfile extends StatelessWidget {
         ),
         SizedBox(height: 10.0),
         Text(
-          'Area: XYZ Area',
+          'District: Ernakulam',
           style: TextStyle(
             fontSize: 18.0,
             fontFamily: 'Hobbio8',
@@ -98,15 +108,7 @@ class UserProfile extends StatelessWidget {
         ),
         SizedBox(height: 10.0),
         Text(
-          'District: PQR District',
-          style: TextStyle(
-            fontSize: 18.0,
-            fontFamily: 'Hobbio8',
-          ),
-        ),
-        SizedBox(height: 10.0),
-        Text(
-          'City : Sample City',
+          'City : Muvattupuzha',
           style: TextStyle(
             fontSize: 18.0,
             fontFamily: 'Hobbio8',
@@ -115,8 +117,10 @@ class UserProfile extends StatelessWidget {
         SizedBox(height: 10.0),
         ElevatedButton(
           onPressed: () {
-            // Add your submission logic here
-            // This function will be called when the button is pressed
+            Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => UserEditProfile()),
+    );
           },
           style: ButtonStyle(
             backgroundColor:
@@ -125,6 +129,30 @@ class UserProfile extends StatelessWidget {
           child: Center(
             child: Text(
               'Edit Profile',
+              style: TextStyle(
+                color: Colors.white,
+                fontFamily: 'Hobbio',
+                fontSize: 17,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 10.0),
+        ElevatedButton(
+         onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => EditProfile()),
+    );
+    // View center details
+  },
+          style: ButtonStyle(
+            backgroundColor:
+                MaterialStateProperty.all<Color>(Color.fromARGB(255, 65, 89, 124)),
+          ),
+          child: Center(
+            child: Text(
+              'Change Password',
               style: TextStyle(
                 color: Colors.white,
                 fontFamily: 'Hobbio',

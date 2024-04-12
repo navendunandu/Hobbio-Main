@@ -2,29 +2,57 @@
 {% load static %}
 {% block content %}
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>View Images</title>
+<style>
+  /* CSS for image cards */
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.image-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    margin: 10px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+}
+
+.image-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.image-card:hover {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+</style>
 </head>
 
 <body>
   <center>
-    <form action="" method="post">
+    <form action="" method="post"><br><br>
         {% csrf_token %}
     <h3>Gallery</h3><br>
-    <div>
+    <div class="image-gallery">
       {% for i in data %}
-        <div>
-          <img src={{i.image_data.gallery_image}} >
+        <div class="image-card">
+          <img src="{{ i.image_data.gallery_image }}" height="150" width="150">
         </div>
      {% endfor %} 
     </div>
 </form>
   </center>
 </body>
-
 
 </html>
 {% endblock content %}

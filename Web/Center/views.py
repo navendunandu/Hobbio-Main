@@ -33,11 +33,16 @@ def CenterHome(request):
 
 
 def CenterProfile(request):
-    center=db.collection("tbl_center").document(request.session["cid"]).get().to_dict()
-    city=db.collection("tbl_city").document(center["city_id"]).get().to_dict()
-    district=db.collection("tbl_district").document(city["district_id"]).get().to_dict()
-    # citylist.append("city":city,"district":district)
-    return render(request,"Center/CenterProfile.html",{"center":center,"citydata":city,"disdata":district})
+    if 'cid' in request.session:
+        center=db.collection("tbl_center").document(request.session["cid"]).get().to_dict()
+        city=db.collection("tbl_city").document(center["city_id"]).get().to_dict()
+        district=db.collection("tbl_district").document(city["district_id"]).get().to_dict()
+        # citylist.append("city":city,"district":district)
+        return render(request,"Center/CenterProfile.html",{"center":center,"citydata":city,"disdata":district})
+    else:
+        return redirect("webguest:login")
+        
+    
 
 
 def CenterEditProfile(request):
@@ -160,13 +165,15 @@ def centeraddimage(request,id):
 
 def delete_image(request,id):
     db.collection("tbl_gallery").document(id).delete()
-    return render(request,"Center/CenterAddImage.html",{"id":id,'msg':'Image deleted'})
+    messages.success(request,'Image Deleted Successfully...')
+    return redirect("webcenter:centeraddimage",id)
 
 
 
 def delete_package(request,id):
     db.collection("tbl_package").document(id).delete()
-    return render(request,"Center/CenterAddPackage.html",{"id":id,'msg':'Package deleted'})
+    messages.success(request,'Package Deleted Successfully...')
+    return redirect("webcenter:centeraddpackage",id)
 
 def edit_package(request,id):
     coid=request.session["coid"]
@@ -226,30 +233,61 @@ def replycomplaints(request,id):
         return render(request,"Center/ReplyComplaints.html")
 
 def viewbookings(request):
-    booklist = []    
-    coursedata = db.collection("tbl_course").where("center_id", "==", request.session["cid"]).stream()      
+    booklist = []   
+    bkids = [] 
+    coursedata = db.collection("tbl_course").where("center_id", "==", request.session.get("cid")).stream()      
     for course in coursedata:          
         course_data = course.to_dict()                
         packagedata = db.collection("tbl_package").where("course_id", "==", course.id).stream()            
         for package in packagedata:               
-            package_data = package.to_dict()           
-            bookdata = getBook(package.id)    
-            booklist.append({"course": course_data, "pack": package_data, "user": bookdata[0]}) 
-                      
-    return render(request, "Center/ViewBookings.html", {"booking": booklist})
-
-
-def getBook(id):
-    booking_list = []  
-    booking_list2 = []  
-    bookdata = db.collection("tbl_booking").where("package_id", "==", id).stream()    
-    for i in bookdata:
-        bdata = i.to_dict()                     
-        userdata = db.collection("tbl_user").document(bdata["user_id"]).get().to_dict()      
+            package_data = package.to_dict() 
+            bookdata = db.collection("tbl_booking").where("package_id", "==", package.id).where("booking_status","==",1).stream()    
+            for i in bookdata:    
+                bkids.append(i.id)  
+    # print(bkids)  
+    for bk in bkids:
+          bookdata = db.collection("tbl_booking").document(bk).get().to_dict()
+          user = db.collection("tbl_user").document(bookdata["user_id"]).get().to_dict()
+          package = db.collection("tbl_package").document(bookdata["package_id"]).get().to_dict()
+          course=db.collection("tbl_course").document(package["course_id"]).get().to_dict()
+          booklist.append({"book":bookdata,"user":user,"package":package,"course":course})
+            # bookdata = getBook(package.id)
+            # if bookdata:  # Check if bookdata is not empty
+            #     booklist.append({"course": course_data, "pack": package_data, "user": bookdata[0]})
+            # else:
+            #     # Handle the case where no booking data is available for this package
+            #     booklist.append({"course": course_data, "pack": package_data, "user": None})
+            #     print(booklist)
                 
-        # booking_list.append({"booking": bdata, "user": userdata}) 
-        booking_list2.append({**bdata,**userdata}) 
-        # print("output:",booking_list)
-        # print("output2:",booking_list2)
+                                 
+    return render(request, "Center/ViewBookings.html",{"data":booklist})
+
+
+
+# def getBook(id):
+#     booking_list = []  
+#     booking_list2 = []  
+#     bookdata = db.collection("tbl_booking").where("package_id", "==", id).where("booking_status","==",1).stream()    
+#     for i in bookdata:
+#         bdata = i.to_dict()                     
+#         userdata = db.collection("tbl_user").document(bdata["user_id"]).get().to_dict()      
+                
+#         # booking_list.append({"booking": bdata, "user": userdata}) 
+#         booking_list2.append({**bdata,**userdata}) 
+#         # print("output:",booking_list)
+#         # print("output2:",booking_list2)
          
-    return booking_list2
+#     return booking_list2
+
+def viewratings(request):
+    ratelist=[]
+    ratedata=db.collection("tbl_rating").where("center_id","==",request.session["cid"]).stream()
+    for i in ratedata:
+        rate=i.to_dict()
+        ratelist.append({"rate":rate})
+    return render(request,"Center/ViewRating.html",{"data":ratelist})
+
+def logout(request):
+    del request.session["cid"]
+    return redirect("webguest:login")
+

@@ -3,6 +3,7 @@ from Admin import views
 
 app_name = "webadmin"
 urlpatterns = [
+    
     path('adminreg/',views.AdminRegistration),
     path('adminhome/',views.AdminHome,name="adminhome"),
 
@@ -33,4 +34,14 @@ urlpatterns = [
 
     path('viewfeedbacks/',views.viewfeedbacks,name="viewfeedbacks"),
     path('viewbookings/',views.viewbookings,name="viewbookings"),
+    path('cancelledbookings/',views.cancelledbookings,name="cancelledbookings"),
+
+    path('send/<str:id>',views.send,name="send"),
+
+    path('categoryreport/',views.categoryreport,name="categoryreport"),
+    path('learnersreport/',views.learnersreport,name="learnersreport"),
+    path('subcategoryreport/',views.subcategoryreport,name="subcategoryreport"),
+
+    path('logout/',views.logout,name="logout"),
+
 ]

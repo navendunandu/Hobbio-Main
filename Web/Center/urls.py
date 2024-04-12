@@ -30,6 +30,8 @@ urlpatterns = [
     path('replycomplaints/<str:id>',views.replycomplaints,name="replycomplaints"),
 
     path('viewbookings/',views.viewbookings,name="viewbookings"),
+    path('viewratings/',views.viewratings,name="viewratings"),
+    path('logout/',views.logout,name="logout"),
 
     
 ]

@@ -7,71 +7,132 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Center Add Package</title>
+    <style>
+        .card {
+            width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            margin: 10px auto;
+            width: 100%;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        .button-submit {
+            display: block;
+            width: 150px;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #00394f; /* Blue color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .button-submit:hover {
+            background-color: #17a2b8; /* Light blue color on hover */
+        }
+        .action-link {
+            color: red; /* Red color for delete link */
+        }
+        .action-link:hover {
+            color: #17a2b8; /* Light blue color on hover for other links */
+        }
+    </style>
 </head>
-<body>
-    <center>
+<body><br>
+    <div class="card">
         <form method="post">
             {% csrf_token %}
-        
-        <table border="1" rules="none">
-            <tr>
-                <td>Package Name</td>
-                <td><input type="text" name="txtpackname" id="" value="{{pack.package_name}}"></td>
-            </tr>
-            <tr>
-                <td>Package Duration</td>
-                <td><input type="text" name="txtpackduration" id="" value="{{pack.package_duration}}"></td>
-            </tr>
-            <tr>
-                <td>Package Cost</td>
-                <td><input type="text" name="txtpackcost" id="" value="{{pack.package_cost}}"></td>
-            </tr>
-            <tr>
-                <td>Package Details</td>
-                <td><input type="text" name="txtpackdetails" id="" value="{{pack.package_details}}"></td>
-            </tr>
-            <tr>
-                <td colspan="2" align="center"><input type="submit" value="Submit" name="btnsubmit"></td>
-            </tr>
-        </table>
-    </form>
-        <br>
+            <center><h3>Add Packages</h3></center>
+            <table  rules="none">
+                <tr>
+                    <td>Package Name</td>
+                    <td><input type="text" name="txtpackname" id="" value="{{pack.package_name}}"></td>
+                </tr>
+                <tr>
+                    <td>Package Duration</td>
+                    <td><input type="text" name="txtpackduration" id="" value="{{pack.package_duration}}"></td>
+                </tr>
+                <tr>
+                    <td>Package Cost</td>
+                    <td><input type="text" name="txtpackcost" id="" value="{{pack.package_cost}}"></td>
+                </tr>
+                <tr>
+                    <td>Package Details</td>
+                    <td><input type="text" name="txtpackdetails" id="" value="{{pack.package_details}}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center"><input type="submit" value="Submit" name="btnsubmit" class="button-submit"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
 
+    <div class="card">
         <table border="1">
             <tr>
-                <td>Sl No</td>
-                <td>Course Name</td>
-                <td>Package Name</td>
-                <td>Package Duration</td>
-                <td>Package Cost</td>
-                <td>Package Details</td>
-                <td>Action</td>
-                
+                <th>Sl No</th>
+                <th>Course Name</th>
+                <th>Package Name</th>
+                <th>Package Duration</th>
+                <th>Package Cost</th>
+                <th>Package Details</th>
+                <th>Action</th>
             </tr>
-            {% for i in data  %}
+            {% for i in data %}
             <tr>
-                <td>{{forloop.counter}}</td>
-                <td>{{i.course_name.course_name}}</td>
-                <td>{{i.pack_data.package_name}}</td>
-                <td>{{i.pack_data.package_duration}}</td>
-                <td>{{i.pack_data.package_cost}}</td>
-                <td>{{i.pack_data.package_details}}</td>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ i.course_name.course_name }}</td>
+                <td>{{ i.pack_data.package_name }}</td>
+                <td>{{ i.pack_data.package_duration }}</td>
+                <td>{{ i.pack_data.package_cost }}</td>
+                <td>{{ i.pack_data.package_details }}</td>
                 <td>
-                    <a href="{% url  'webcenter:delete_package' i.id %}">Delete</a>
-                    <a href="{% url  'webcenter:edit_package' i.id %}">Edit</a>
+                    <a href="{% url 'webcenter:delete_package' i.id %}" class="action-link" style="color: red;">Delete</a><br>
+                    <a href="{% url 'webcenter:edit_package' i.id %}" class="action-link" style="color: #17a2b8;">Edit</a>
                 </td>
-                </tr>
-                {% endfor %}
-                </table>
-    </center>
-    
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 </body>
+{% if messages %}
+{% for message in messages %}
+<script>
+    alert("{{message}}")
+</script>
+{% endfor %}
+{% endif %}
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $("#selcategory").change(function () {
+        var did = $(this).val();
+        var ur = "{% url 'webcenter:ajaxsubcategory' %}"
+        $.ajax({
+            url: ur,
+            data: { did: did, },
+            success: function (data) {
+                $("#selsubcategory").html(data);
+            },
+        });
+    });
+</script>
+
 {% if msg %}
 <script>
-    alert("{{msg}}")
-    window.location="/Center/centeraddpackage/{{id}}"
+    alert("Package added successfully")
+    window.location="/Center/centeraddpackage/{{ id }}"
+    
 </script>
 {% endif %}
-
-</html>
 {% endblock content %}

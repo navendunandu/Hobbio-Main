@@ -8,41 +8,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Packages</title>
+    <style>
+        .package-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.package-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 10px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* CSS for Book Package button */
+.book-button {
+    display: inline-block;
+    background-color: #00394f;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.book-button:hover {
+    background-color: #17a2b8;
+}
+    </style>
 </head>
 <body>
-    <form action="" method="post">
+    <center>
+    <form action="" method="post"><br>
         {% csrf_token %}
-    <div>
+        <h2>{{course.course_name}}</h2><br>
+    <div class="package-container">
         {% for i in data  %}
-        <p >
-            <strong>SL No: {{forloop.counter}}</strong><br>
-            <strong>Package Name: {{i.package_data.package_name}}</strong><br>
-            <strong>Package Duration:{{i.package_data.package_duration}} </strong><br>
-            <strong>Package Cost: {{i.package_data.package_cost}}</strong><br>
-            <strong>Package Details: {{i.package_data.package_details}}</strong><br>
-            <div>
-                
-                <a href="{% url 'webuser:bookpackage' i.id %}" onclick="return confirm('Do you want to book this course?')">Book Package</a>
-                
-            </div>
-        </p>
+        <div class="package-card">
+            <p>
+                <strong>SL No: {{forloop.counter}}</strong><br>
+                <strong>Package Name: {{i.package_data.package_name}}</strong><br>
+                <strong>Package Duration: {{i.package_data.package_duration}} </strong><br>
+                <strong>Package Cost: {{i.package_data.package_cost}}</strong><br>
+                <strong>Package Details: {{i.package_data.package_details}}</strong><br>
+                <div>
+                    <a href="{% url 'webuser:bookpackage' i.id %}" class="book-button" onclick="return confirm('Do you want to book this course?')">Book Package</a>
+                </div>
+            </p>
+        </div>
         {% endfor %}
-       
     </div>
 </form>
+</center>
 </body>
 
-   
-    {% if messages %}
-        
-        {% for message in messages %}
-        <script>
-            // Display the message using JavaScript alert
-            alert("{{ message }}");
-        </script>
-        {% endfor %}
-    {% endif %}
+{% if messages %}
+    {% for message in messages %}
+    <script>
+        // Display the message using JavaScript alert
+        alert("{{ message }}");
+    </script>
+    {% endfor %}
+{% endif %}
 
 </html>
 {% endblock content %}
-

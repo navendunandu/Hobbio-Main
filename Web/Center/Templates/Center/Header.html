@@ -83,6 +83,7 @@
                 </div>
               </div>
               <a href="{% url 'webcenter:centerfeedback' %}" class="nav-item nav-link">Feedbacks</a>
+              <a href="{% url 'webcenter:viewratings' %}" class="nav-item nav-link">View Ratings</a>
             
             <div class="nav-item dropdown">
               <a
@@ -97,6 +98,10 @@
                 <a href="{% url 'webcenter:centerchangepassword' %}" class="dropdown-item">Change Password</a>
               </div>
             </div>
+            <a href="{% url 'webcenter:logout' %}" class="nav-item nav-link">
+              <span><i class="fa fa-power-off"></i></span> <!-- Shutdown symbol -->
+              Logout
+          </a>
            
           </div>
           

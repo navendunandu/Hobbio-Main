@@ -30,6 +30,14 @@ urlpatterns = [
     path('favorites/',views.favorites,name="favorites"),
     path('favdel/<str:id>',views.favdel,name="favdel"),
 
+    path('cancelbooking/<str:id>',views.cancelbooking,name="cancelbooking"),
+
+    path('rating/<str:id>',views.rating,name="rating"),
+    path('ajaxrating',views.ajaxrating,name="ajaxrating"),
+    path('starrating/',views.starrating,name="starrating"),
+
+    path('logout/',views.logout,name="logout"),
+
 
     
 

@@ -2,13 +2,13 @@ from django.shortcuts import render,redirect
 import firebase_admin
 from firebase_admin import storage, auth, firestore, credentials
 import pyrebase
-from datetime import datetime
+from datetime import datetime,date
 
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
 from django.http import HttpResponse
-
+from django.http import JsonResponse
 
 db=firestore.client()
 
@@ -35,13 +35,21 @@ def UserHome(request):
     return render(request,"User/UserHome.html",{"user":user})
 
 def UserProfile(request):
-    user=db.collection("tbl_user").document(request.session["uid"]).get().to_dict()
-    # print(user)
-    # citylist=[]
-    city=db.collection("tbl_city").document(user["city_id"]).get().to_dict()
-    district=db.collection("tbl_district").document(city["district_id"]).get().to_dict()
-    # citylist.append("city":city,"district":district)
-    return render(request,"User/UserProfile.html",{"user":user,"citydata":city,"disdata":district})
+    if 'uid' in request.session:
+        user=db.collection("tbl_user").document(request.session["uid"]).get().to_dict()
+        city=db.collection("tbl_city").document(user["city_id"]).get().to_dict()
+        district=db.collection("tbl_district").document(city["district_id"]).get().to_dict()     
+        return render(request,"User/UserProfile.html",{"user":user,"citydata":city,"disdata":district})
+    else:
+        return redirect("webguest:login")
+
+
+        
+    
+   
+    
+
+
 
 def UserEditProfile(request):
     user=db.collection("tbl_user").document(request.session["uid"]).get().to_dict()
@@ -170,12 +178,13 @@ def ajaxcenter(request):
 
 
 def viewpackages(request,id):
+    course=db.collection("tbl_course").document(id).get().to_dict()
     packagedata=db.collection("tbl_package").where("course_id","==",id).stream()
     packagelist=[]
     for i in packagedata:
         package=i.to_dict()
         packagelist.append({"package_data":package,"id":i.id})
-    return render(request,"User/ViewPackages.html",{"data":packagelist})
+    return render(request,"User/ViewPackages.html",{"data":packagelist,"course":course})
 
 def viewimages(request,id):
     imagedata=db.collection("tbl_gallery").where("course_id","==",id).stream()
@@ -187,11 +196,11 @@ def viewimages(request,id):
 
 def viewcenter(request,id):
     uid=request.session["uid"]
-    centerdata=db.collection("tbl_center").where("center_id","==",id).stream()
-    centerlist=[]
-    for i in centerdata:
-        center=i.to_dict()
-        centerlist.append({"center_data":center,"id":i.id})
+    centerdata=db.collection("tbl_center").document(id).get().to_dict()
+    # centerlist=[]
+    # for i in centerdata:
+    #     center=i.to_dict()
+    #     centerlist.append({"center_data":center,"id":i.id})
 
     coursedata=db.collection("tbl_course").where("center_id", "==", id).stream()
     courselist=[]
@@ -200,7 +209,7 @@ def viewcenter(request,id):
         like=getLike(i.id,uid)
         print("Like:",like)
         courselist.append({"course_data":course,"id":i.id,"like":like})
-    return render(request,"User/ViewCenter.html",{"data":courselist,"center":centerlist,"cid":id})
+    return render(request,"User/ViewCenter.html",{"data":courselist,"center":centerdata,"cid":id})
 
 def getLike(id,uid):
     fav=db.collection("tbl_favorites").where("course_id","==",id).where("user_id","==",uid).get()
@@ -264,7 +273,7 @@ def getCenter(id):
     return ''
 
 def bookpackage(request, id):
-    bookdata = db.collection("tbl_booking").where("user_id", "==", request.session["uid"]).where("package_id", "==", id).stream()
+    bookdata = db.collection("tbl_booking").where("user_id", "==", request.session["uid"]).where("package_id", "==", id).where("booking_status","==",1).stream()
 
     for i in bookdata:
         packdata = db.collection("tbl_package").document(id).get().to_dict()
@@ -306,7 +315,7 @@ def payment(request):
 
 def viewbookings(request):
     booklist=[]
-    bookingdata=db.collection("tbl_booking").where("user_id","==",request.session["uid"]).stream()
+    bookingdata=db.collection("tbl_booking").where("user_id","==",request.session["uid"]).where("booking_status","==",1).stream()
     for i in bookingdata:
         bdata=i.to_dict()
         
@@ -315,9 +324,27 @@ def viewbookings(request):
         center=db.collection("tbl_center").document(course["center_id"]).get().to_dict()
         
            
-        booklist.append({"book":bdata,"pack":pack,"course":course,"center":center})
+        booklist.append({"book":bdata,"pack":pack,"course":course,"center":center,"id":i.id})
         
     return render(request,"User/ViewBookings.html",{"booking":booklist})
+
+def cancelbooking(request,id):
+    db.collection("tbl_booking").document(id).update({"booking_status":2})
+    user=db.collection("tbl_user").document(request.session["uid"]).get().to_dict()
+    email=user['user_email']
+    send_mail(
+        'Welcome to Hobbio',
+        'Dear ' + user['user_name'] + ',\n\n'
+        'Your request to cancel the course booking is under processing...'
+        'After the admin review, we will refund your amount shortly...'
+        'Thank you for choosing Hobbio. If you have any questions or need assistance, feel free to reach out.\n\n'
+        'Best regards,\n'
+        'The Hobbio Team',
+        settings.EMAIL_HOST_USER,
+        [email],
+    )     
+    
+    return redirect("webuser:viewbookings")
 
 def favorites(request):
     favlist=[]
@@ -332,6 +359,85 @@ def favorites(request):
 def favdel(request,id):
     db.collection("tbl_favorites").document(id).delete()
     return redirect("webuser:favorites")
+
+def rating(request,id):
+    if 'uid' in request.session:
+        parray=["1","2","3","4","5"]    
+        bdata = db.collection("tbl_booking").document(id).get().to_dict()
+        pdata=db.collection("tbl_package").document(bdata["package_id"]).get().to_dict()
+        codata=db.collection("tbl_course").document(pdata["course_id"]).get().to_dict()
+        cdata=db.collection("tbl_center").document(codata["center_id"]).get().to_dict()
+        count = 0
+        r_len = 0
+        r_data = []
+        rate = db.collection("tbl_rating").where("center_id", "==", codata["center_id"]).stream()
+        for i in rate:
+            rdata = i.to_dict()
+            r_len = r_len + int(len(rdata))
+        rlen = r_len // 5
+        if rlen>0:
+            res=0    
+            ratedata = db.collection("tbl_rating").where("center_id", "==", codata["center_id"]).stream()
+            for i in ratedata:
+                rated = i.to_dict()
+                r_data.append({"data":i.to_dict()})
+                res = res + int(rated["rating_data"])
+                avg = res//rlen
+            return render(request,"User/Rating.html",{"id":id,"data":r_data,"ar":parray,"avg":avg,"count":rlen})
+        else:
+            return render(request,"User/Rating.html",{'id':id})
+    else:
+        return redirect("webguest:login")
+
+def ajaxrating(request):
+    parray=[1,2,3,4,5]
+    rate_data = []
+    bdata = db.collection("tbl_booking").document(request.GET.get('workid')).get().to_dict()
+    pdata=db.collection("tbl_package").document(bdata["package_id"]).get().to_dict()
+    codata=db.collection("tbl_course").document(pdata["course_id"]).get().to_dict()
+    cdata=db.collection("tbl_center").document(codata["center_id"]).get().to_dict()
+    datedata = date.today()
+    db.collection("tbl_rating").add({"rating_data":request.GET.get('rating_data'),"user_name":request.GET.get('user_name'),"user_review":request.GET.get('user_review'),"center_id":codata["center_id"],"date":str(datedata)})
+    pdt = db.collection("tbl_rating").where("center_id", "==", codata["center_id"]).stream()
+    for p in pdt:
+        rate_data.append({"rate":p.to_dict(),"id":p.id})
+    return render(request,"User/AjaxRating.html",{'data':rate_data,'ar':parray})
+
+def starrating(request):
+    r_len = 0
+    five = four = three = two = one = 0
+    bdata = db.collection("tbl_booking").document(request.GET.get("pdt")).get().to_dict()
+    pdata=db.collection("tbl_package").document(bdata["package_id"]).get().to_dict()
+    codata=db.collection("tbl_course").document(pdata["course_id"]).get().to_dict()
+    cdata=db.collection("tbl_center").document(codata["center_id"]).get().to_dict()
+    rate = db.collection("tbl_rating").where("center_id", "==", codata["center_id"]).stream()
+    for i in rate:
+        rated = i.to_dict()
+        if int(rated["rating_data"]) == 5:
+            five = five + 1
+        elif int(rated["rating_data"]) == 4:
+            four = four + 1
+        elif int(rated["rating_data"]) == 3:
+            three = three + 1
+        elif int(rated["rating_data"]) == 2:
+            two = two + 1
+        elif int(rated["rating_data"]) == 1:
+            one = one + 1
+        else:
+            five = four = three = two = one = 0
+        r_len = r_len + int(len(rated))
+    rlen = r_len // 5
+    result = {"five":five,"four":four,"three":three,"two":two,"one":one,"total_review":rlen}
+    return JsonResponse(result)
+
+def logout(request):
+    del request.session["uid"]
+    return redirect("webguest:login")
+
+
+
+
+
 
 
 

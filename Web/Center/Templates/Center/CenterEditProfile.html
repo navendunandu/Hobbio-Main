@@ -9,26 +9,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Center Edit Profile</title>
+    <style>
+        .card {
+            width: 50%;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            margin: 0 auto;
+        }
+       
+        .button-link {
+            display: block;
+            width: 150px; /* Adjust width as needed */
+            margin: 0 auto; /* Centering horizontally */
+            padding: 10px 20px;
+            background-color: #00394f;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .button-link:hover {
+            background-color: #17a2b8; /* Light blue */
+        }
+    </style>
 </head>
 <body>
-    <center>
+    <br><br>
+    <div class="card">
+    
         <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <table border="1" rules="none">
-            <td colspan="2">
-                <label for="txtlogo"><img src="{{center.center_logo}}" alt=""></label>
+        <center><h3>Edit Profile</h3></center>
+        <table  rules="none">
+            <td colspan="2" align="center">
+                <label for="txtlogo"><img src="{{center.center_logo}}" alt="" height="150" width="150"></label>
                 <input type="file" name="txtlogo" id="txtlogo" style="display:none;">
             </td>
             <tr>
-                <td>Center Name</td>
+                <th>Center Name</th>
                 <td><input type="text" name="txtcname" id="" value="{{center.center_name}}"></td>
             </tr>
             <tr>
-                <td>Contact</td>
+                <th>Contact</th>
                 <td><input type="text" name="txtccontact" id="" value="{{center.center_contact}}"></td>
             </tr>
             <tr>
-                <td>Type</td>
+                <th>Type</th>
                 <td><select name="seltype" id="seltype"><option value="{{center.center_type}}">{{center.center_type}}</option>
                   <option value="">---Select---</option>
                     <option value="Individual">Individual</option>
@@ -36,7 +70,7 @@
                 </select></td>
             </tr>
             <tr>
-                <td>District</td>
+                <th>District</th>
                 <td><select name="seldistrict" id="seldistrict"><option value="">---select---</option>
                     {% for i in disdata %}
                         {% if i.id == citydata.district_id %}
@@ -48,28 +82,31 @@
                     </select></td>
             </tr>
             <tr>
-                <td>City</td>
+                <th>City</th>
                 <td><select name="selcity" id="selcity"><option value="{{center.city_id}}">{{citydata.city_name}}</option></select></td>
             </tr>
             <tr>
-                <td>Area</td>
+                <th>Area</th>
                 <td><input type="text" name="txtcarea" id="" value="{{center.center_area}}"></td>
             </tr>
             <tr>
-                <td>Building</td>
+                <th>Building</th>
                 <td><input type="text" name="txtcbuilding" id="" value="{{center.center_building}}"></td>
             </tr>
             <tr>
-                <td>Landmark</td>
+                <th>Landmark</th>
                 <td><input type="text" name="txtclandmark" id="" value="{{center.center_landmark}}"></td>
             </tr>
             <tr>
-                <td colspan="2"><input type="submit" value="Edit" name="btnedit"></td>
+                <td colspan="2"><input type="submit" value="Update" name="btnedit"  class="button-link"></td>
             </tr>
 
         </table>
+       
+       
     </form>
-    </center>
+</div>
+  
     
 </body>
 </html>

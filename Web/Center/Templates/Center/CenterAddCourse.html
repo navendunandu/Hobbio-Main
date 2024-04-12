@@ -8,67 +8,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Center Add Course</title>
+    <style>
+        .card {
+            width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            margin: 10px auto;
+            width: 100%;
+            
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+            
+        }
+        
+       
+        .button-submit {
+            display: block;
+            width: 150px;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #00394f; /* Blue color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .button-submit:hover {
+            background-color: #17a2b8; /* Light blue color on hover */
+        }
+    </style>
 </head>
 <body>
-    <center>
+    <br><br>
+    <div class="card">
         <form action="" method="post">
             {% csrf_token %}
-        <table border="1" rules="none">
-            <tr>
-                <td>Category</td>
-                <td><select name="selcategory" id="selcategory" ><option value="">---select---</option>
-                    {% for i in data %}
-                        {% if i.id == subcat.category_id %}
-                        <option value="{{i.id}}" selected>{{i.cat_data.category_name}}</option>
-                        {% else %}
-                        <option value="{{i.id}}" >{{i.cat_data.category_name}}</option>
-                        {% endif %}
-                        {% endfor %}
-                </select></td>
-            </tr>
-            <tr>
-                <td>SubCategory</td>
-                <td><select name="selsubcategory" id="selsubcategory"><option value="">---select---</option>
-                    {% if i.id == course_data.subcategory_id %}
-                        <option value="{{i.id}}" selected>{{i.subcat.subcategory_name}}</option>
-                        {% else %}
-                        <option value="{{i.id}}" >{{i.subcat.subcategory_name}}</option>
-                        {% endif %}
-                </select></td>
-            </tr>
-            <tr>
-                <td>Course Name</td>
-                <td><input type="text" name="txtcoursename" id="" value="{{course_data.course_name}}"></td>
-            </tr>
-            <tr>
-                <td>Course Description</td>
-                <td><input type="text" name="txtcoursedes" id="" value="{{course_data.course_des}}"></td>
-            </tr>
-            <tr>
-                <td colspan="2"><input type="submit" value="Submit" name="btnsubmit"></td>
-            </tr>
-            <!-- <tr>
-                <td colspan="2" align="center"><a href="CenterAddPackage.html">Add Package</a></td>
-            </tr>
-            <tr>
-                <td colspan="2" align="center"><a href="CenterAddImage.html">Add Image</a></td>
-            </tr> -->
+            <center><h3>Add Courses</h3></center>
+            <table>
+                <tr>
+                    <td>Category</td>
+                    <td><select name="selcategory" id="selcategory" ><option value="">---select---</option>
+                        {% for i in data %}
+                            {% if i.id == subcat.category_id %}
+                            <option value="{{i.id}}" selected>{{i.cat_data.category_name}}</option>
+                            {% else %}
+                            <option value="{{i.id}}" >{{i.cat_data.category_name}}</option>
+                            {% endif %}
+                            {% endfor %}
+                    </select></td>
+                </tr>
+                <tr>
+                    <td>SubCategory</td>
+                    <td><select name="selsubcategory" id="selsubcategory"><option value="">---select---</option>
+                        {% if i.id == course_data.subcategory_id %}
+                            <option value="{{i.id}}" selected>{{i.subcat.subcategory_name}}</option>
+                            {% else %}
+                            <option value="{{i.id}}" >{{i.subcat.subcategory_name}}</option>
+                            {% endif %}
+                    </select></td>
+                </tr>
+                <tr>
+                    <td>Course Name</td>
+                    <td><input type="text" name="txtcoursename" id="" value="{{course_data.course_name}}"></td>
+                </tr>
+                <tr>
+                    <td>Course Description</td>
+                    <td><input type="text" name="txtcoursedes" id="" value="{{course_data.course_des}}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="Submit" name="btnsubmit" class="button-submit"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
 
-        </table>
-        <br>
-
-        <table border="1">
+    <div class="card">
+        <table border="1" >
             <tr>
-                <td>Sl No</td>
-                <td>Category Name</td>
-                <td>SubCategory Name</td>
-                <td>Course Name</td>
-                <td>Course Description</td>
-                <td>Action</td>
-                <td>Package Details</td>
-                <td>Images</td>
+                <th>Sl No</th>
+                <th>Category Name</th>
+                <th>SubCategory Name</th>
+                <th>Course Name</th>
+                <th>Course Description</th>
+                <th>Action</th>
+                <th>Package Details</th>
+                <th>Images</th>
             </tr>
-            {% for i in course  %}
+            {% for i in course %}
             <tr>
                 <td>{{forloop.counter}}</td>
                 <td>{{i.category.category_name}}</td>
@@ -76,18 +110,15 @@
                 <td>{{i.course_data.course_name}}</td>
                 <td>{{i.course_data.course_des}}</td>
                 <td>
-                    <a href="{% url  'webcenter:delete_course' i.id %}">Delete</a>
-                   
+                    <a href="{% url  'webcenter:delete_course' i.id %}" style="color: red;">Delete</a>
                 </td>
-                <td><a href="{% url 'webcenter:centeraddpackage' i.id %}">Add Packages</a></td>
-                <td><a href="{% url 'webcenter:centeraddimage' i.id %}">Add Images</a></td>
+                <td><a href="{% url 'webcenter:centeraddpackage' i.id %}" style="color: #17a2b8;">Add Packages</a></td>
+                <td><a href="{% url 'webcenter:centeraddimage' i.id %}" style="color: #17a2b8;">Add Images</a></td>
             </tr>
             {% endfor %}
-           
         </table>
-    </form>
-    </center>
-    
+    </div>
+
 </body>
 </html>
 

@@ -8,64 +8,110 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Center Profile</title>
+    <style>
+        
+
+        .card {
+            max-width: 500px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px auto;
+        }
+
+        .card img {
+            display: block;
+            margin: auto;
+            border-radius: 50%;
+        }
+
+        .card table {
+            width: 100%;
+            margin-top: 20px;
+            text-align: center; /* Center the content of the table */
+        }
+
+        .card table td, .card table th {
+            padding: 10px;
+            text-align: center; /* Center the content of the cells */
+        }
+
+        .button-container {
+            text-align: center; /* Center the buttons */
+            margin-top: 20px;
+        }
+
+        .button-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #00394f;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-link:hover {
+            background-color: #17a2b8;
+        }
+    </style>
 </head>
 <body>
-    <center>
-        <form action="" method="post">
-            {% csrf_token %}
-        <table border="1" rules="none">
-            <tr>
-                <td colspan="2" align="center"><img src={{center.center_logo}} width="150" height="150" ></td>
-            </tr>
-            <tr>
-                <td>Center Name</td>
-                <td>{{center.center_name}}</td>
-            </tr>
-            <tr>
-                <td>Contact</td>
-                <td>{{center.center_contact}}</td>
-            </tr>
-            <tr>
-                <td>Email</td>
-                <td>{{center.center_email}}</td>
-            </tr>
-            <tr>
-                <td>Type</td>
-                <td>{{center.center_type}}</td>
-            </tr>
-            <tr>
-                <td>District</td>
-                <td>{{disdata.district_name}}</td>
-            </tr>
-            <tr>
-                <td>City</td>
-                <td>{{citydata.city_name}}</td>
-            </tr>
-            <tr>
-                <td>Area</td>
-                <td>{{center.center_area}}</td>
-            </tr>
-            <tr>
-                <td>Building</td>
-                <td>{{center.center_building}}</td>
-            </tr>
-            <tr>
-                <td>Landmark</td>
-                <td>{{center.center_landmark}}</td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <a href="{{ center.center_proof }}">Proof</a>
-                    <td colspan="2"><a href="{% url 'webcenter:centereditprofile' %}">Edit Profile</a>
-                    <td colspan="2"><a href="{% url 'webcenter:centerchangepassword' %}">Change Password</a>
-                </td>
-            </tr>
-           
-
-        </table>
+   
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="card">
+           <center> <h3>My Profile</h3></center>
+            <table border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td colspan="2"><img src="{{ center.center_logo }}" width="150" height="150"></td>
+                </tr>
+                <tr>
+                    <th>Center Name</th>
+                    <td>{{ center.center_name }}</td>
+                </tr>
+                <tr>
+                    <th>Contact</th>
+                    <td>{{ center.center_contact }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ center.center_email }}</td>
+                </tr>
+                <tr>
+                    <th>Type</th>
+                    <td>{{ center.center_type }}</td>
+                </tr>
+                <tr>
+                    <th>District</th>
+                    <td>{{ disdata.district_name }}</td>
+                </tr>
+                <tr>
+                    <th>City</th>
+                    <td>{{ citydata.city_name }}</td>
+                </tr>
+                <tr>
+                    <th>Area</th>
+                    <td>{{ center.center_area }}</td>
+                </tr>
+                <tr>
+                    <th>Building</th>
+                    <td>{{ center.center_building }}</td>
+                </tr>
+                <tr>
+                    <th>Landmark</th>
+                    <td>{{ center.center_landmark }}</td>
+                </tr>
+            </table>
+            <div class="button-container">
+                <a href="{{ center.center_proof }}" class="button-link">Proof</a>
+                <a href="{% url 'webcenter:centereditprofile' %}" class="button-link">Edit Profile</a>
+                <a href="{% url 'webcenter:centerchangepassword' %}" class="button-link">Change Password</a>
+            </div>
+        </div>
     </form>
-    </center>
-    
 </body>
 </html>
 {% endblock content %}

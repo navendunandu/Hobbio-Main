@@ -4,13 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Center Registration</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #00394f, #17a2b8);
+            font-family: 'Playfair Display', serif;
+            color: white;
+        }
+
+        h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            max-width: 800px;
+            background-color: #dab79024;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px auto;
+        }
+
+        input, select {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        table {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        td {
+            text-align: center;
+            padding: 10px; /* Add padding for better appearance */
+        }
+
+        input[type="submit"], input[type="reset"] {
+            background-color: #17a2b8;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover, input[type="reset"]:hover {
+            background-color: rgba(44, 84, 122, 0.75);
+        }
+
+        /* Center the form */
+        center {
+            display: block;
+            margin: auto;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <center>
         <h3>Center Registration</h3>
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <table border="1" rules="none" cellpadding="15">
+            <center>
+            <table  rules="none" align="center">
                 <tr>
                     <td>Center Name</td>
                     <td><input type="text" name="txtcname" id=""></td>
@@ -81,9 +141,11 @@
                         <input type="submit" value="Register" name="btnregister">
                         <input type="reset" value="Cancel" name="btncancel">
                     </td>
+                    
                 </tr>
 
             </table>
+        </center>
         </form>
         {% if msg%}
         <script>

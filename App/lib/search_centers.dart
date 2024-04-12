@@ -33,7 +33,7 @@ class SearchPage extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 30.0,
                               fontWeight: FontWeight.bold,
-                              fontFamily: 'Hobbio3'
+                              fontFamily: 'Hobbio3',
                             ),
                           ),
                           SizedBox(height: 20.0),
@@ -41,7 +41,7 @@ class SearchPage extends StatelessWidget {
                             decoration: InputDecoration(
                               labelText: 'District',
                             ),
-                            items: ['District 1', 'District 2', 'District 3']
+                            items: ['Ernakulam', 'District 2', 'District 3']
                                 .map((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -55,7 +55,7 @@ class SearchPage extends StatelessWidget {
                             decoration: InputDecoration(
                               labelText: 'City',
                             ),
-                            items: ['City 1', 'City 2', 'City 3']
+                            items: ['Kothamangalam', 'City 2', 'City 3']
                                 .map((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -66,24 +66,25 @@ class SearchPage extends StatelessWidget {
                           ),
                           SizedBox(height: 20.0),
                           ElevatedButton(
-          onPressed: () {
-            // Add your submission logic here
-            // This function will be called when the button is pressed
-          },
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 65, 89, 124)), // Background color
-          ),
-          child: Center(
-            child: Text(
-              'Search',
-              style: TextStyle(
-                color: Colors.white, // Text color
-                fontFamily: 'Hobbio',
-                fontSize: 17 // Font family
-              ),
-            ),
-          ),
-        ),
+                            onPressed: () {
+                              // Add your submission logic here
+                              // This function will be called when the button is pressed
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Color.fromARGB(255, 65, 89, 124)), // Background color
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Search',
+                                style: TextStyle(
+                                  color: Colors.white, // Text color
+                                  fontFamily: 'Hobbio',
+                                  fontSize: 17, // Font family
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -101,7 +102,7 @@ class SearchPage extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 30.0,
                               fontWeight: FontWeight.bold,
-                              fontFamily: 'Hobbio3'
+                              fontFamily: 'Hobbio3',
                             ),
                           ),
                           SizedBox(height: 1.0),
@@ -109,12 +110,10 @@ class SearchPage extends StatelessWidget {
                             shrinkWrap: true,
                             children: [
                               CenterDetailTile(
-                                logo: 'Logo 1',
-                                name: 'Center 1',
+                                name: 'Connect',
                               ),
                               CenterDetailTile(
-                                logo: 'Logo 2',
-                                name: 'Center 2',
+                                name: 'Artistic',
                               ),
                               // Add more CenterDetailTile widgets as needed
                             ],
@@ -134,40 +133,37 @@ class SearchPage extends StatelessWidget {
 }
 
 class CenterDetailTile extends StatelessWidget {
-  final String logo;
   final String name;
 
   const CenterDetailTile({
-    required this.logo,
     required this.name,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Text(logo),
       title: Text(name),
       trailing: ElevatedButton(
-  onPressed: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => ViewCenter()),
-    );
-    // View center details
-  },
-  style: ButtonStyle(
-    backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 65, 89, 124)),
-  ),
-  child: Text(
-    'View',
-    style: TextStyle(
-      color: Colors.white,
-      fontFamily: 'Hobbio',
-      fontSize: 17
-    ),
-  ),
-)
-
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ViewCenter()),
+          );
+        },
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 65, 89, 124)),
+        ),
+        child: Text(
+          'View',
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: 'Hobbio',
+            fontSize: 17,
+          ),
+        ),
+      ),
     );
   }
 }
+
+

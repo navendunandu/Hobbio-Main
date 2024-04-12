@@ -1,57 +1,63 @@
 {% extends 'Center/Header.html' %}
 {% load static %}
 {% block content %}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Hobbio::Booking Details</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hobbio::Booking Details</title>
+    <style>
+        .card {
+            width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            margin: 0 auto;
+            width: 100%;
+        }
+         th, td {
+            padding: 10px;
+            text-align: center;
+        } 
+       
+    </style>
 </head>
-
-<body>
-<center>
-<h3>Booking Details</h3><br>
-<form action="">
-  {% csrf_token %}
-
-
-
-<table width="1119" border="1" cellspacing="0" cellpadding="3" >
-  <tr>
-   	<th width="175" >SL No</th>
-    <th width="175" >User Name</th>
-     <th width="175" >User Contact</th>
-     <th width="175" >User Email</th>
-    <th width="175" >Course Name</th>
-    <th width="175" >Package Name</th>
-    <th width="175" >Booking Date And Time</th>
-    
-
-  </tr>
-  {% for i in booking %}
-  <tr>
-
-
-    <td align="center" >{{forloop.counter}}</td>
-    <td align="center" >{{i.user.user_name}}</td>
-    <td align="center" >{{i.user.user_contact}}</td>
-    <td align="center" >{{i.user.user_email}}</td>
-    <td align="center" >{{i.course.course_name}}</td>
-    <td align="center" >{{i.pack.package_name}}</td>
-    <td align="center" >{{i.user.booking_date_time}}</td>
-   
-   
-  </tr>
-  {% endfor %}
- 
-
-</table>
-<br /><br>
-
-
-</form>
-</center>
-
+<body><br><br>
+    <div class="card">
+        <center>
+            <h3>Booking Details</h3><br>
+           <form action="">
+                {% csrf_token %}
+                <table border="1" cellspacing="0" cellpadding="3">
+                    <tr>
+                        <th width="175">SL No</th>
+                        <th width="175">User Name</th>
+                        <th width="175">User Contact</th>
+                        <th width="175">User Email</th>
+                        <th width="175">Course Name</th>
+                        <th width="175">Package Name</th>
+                        <th width="175">Booking Date And Time</th>
+                    </tr>
+                    {% for i in data %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{i.user.user_name}}</td>
+                        <td>{{i.user.user_contact}}</td>
+                        <td>{{i.user.user_email}}</td>
+                        <td>{{i.course.course_name}}</td>
+                        <td>{{i.package.package_name}}</td>
+                        <td>{{i.book.booking_date_time}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </form>
+        </center>
+    </div>
 </body>
 </html>
+
 {% endblock content %}

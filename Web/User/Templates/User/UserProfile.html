@@ -1,60 +1,105 @@
 {% extends 'User/Header.html' %}
 {% load static %}
 {% block content %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
+    <style>
+        
+
+        .card {
+            max-width: 500px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px auto;
+        }
+
+        .card img {
+            display: block;
+            margin: auto;
+            border-radius: 50%;
+        }
+
+        .card table {
+            width: 100%;
+            margin-top: 20px;
+            text-align: center; /* Center the content of the table */
+        }
+
+        .card table td, .card table th {
+            padding: 10px;
+            text-align: center; /* Center the content of the cells */
+        }
+
+        .button-container {
+            text-align: center; /* Center the buttons */
+        }
+
+        .button-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #00394f;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-link:hover {
+            background-color: #17a2b8;
+        }
+    </style>
 </head>
 <body>
-    <form action="" method="post" >
+    <form action="" method="post">
         {% csrf_token %}
-    <center>
-        <table border="1" rules="none">
-            <tr>
-                <td colspan="2" align="center"><img src={{user.user_photo}} width="150" height="150" ></td>
-            </tr>
-            <tr>
-                <td>Name</td>
-                <td><input type="text" name="txtname" id="" value="{{user.user_name}}"></td>
-            </tr>
-            <tr>
-                <td>Email</td>
-                <td><input type="text" name="txtname" id="" value="{{user.user_email}}"></td>
-            </tr>
-            <tr>
-                <td>Contact</td>
-                <td><input type="text" name="txtname" id="" value="{{user.user_contact}}"></td>
-            </tr>
-            <tr>
-                <td>House Name</td>
-                <td><input type="text" name="txtname" id="" value="{{user.user_housename}}"></td>
-            </tr>
-            <tr>
-                <td>Area</td>
-                <td><input type="text" name="txtname" id="" value="{{user.user_area}}"></td>
-            </tr>
-            <tr>
-                <td>District</td>
-                <td><input type="text" name="txtdistrict" id="" value="{{disdata.district_name}}"></td>
-            </tr>
-            <tr>
-                <td>City</td>
-                <td><input type="text" name="txtcity" id="" value="{{citydata.city_name}}"></td>
-            </tr>
-            
-<tr>
-    <td colspan="2"><a href="{% url 'webuser:usereditprofile' %}">Edit Profile</a><br>
-        <a href="{% url 'webuser:userchangepassword' %}">Change Password</a></td>
-    </td>
-</tr>
-        </table>
-    </center>
-</form> 
+        <div class="card">
+            <center>
+                <h3>My Profile</h3>
+                <img src="{{ user.user_photo }}" width="150" height="150">
+                <table border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ user.user_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ user.user_email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Contact</th>
+                        <td>{{ user.user_contact }}</td>
+                    </tr>
+                    <tr>
+                        <th>House Name</th>
+                        <td>{{ user.user_housename }}</td>
+                    </tr>
+                    <tr>
+                        <th>Area</th>
+                        <td>{{ user.user_area }}</td>
+                    </tr>
+                    <tr>
+                        <th>District</th>
+                        <td>{{ disdata.district_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>City</th>
+                        <td>{{ citydata.city_name }}</td>
+                    </tr>
+                </table>
+                <div class="button-container">
+                    <a href="{% url 'webuser:usereditprofile' %}" class="button-link">Edit Profile</a><br>
+                    <a href="{% url 'webuser:userchangepassword' %}" class="button-link">Change Password</a>
+                </div>
+            </center>
+        </div>
+    </form>
 </body>
 </html>
-
 {% endblock content %}

@@ -9,10 +9,30 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.0/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <title>Hobbio::View Bookings</title>
+<style>
+  .card {
+      width: 100%;
+      margin: 20px auto;
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  table {
+      margin: 0 auto;
+      width: 100%;
+  }
+   th, td {
+      padding: 10px;
+      text-align: center;
+  } 
+ 
+</style>
 </head>
 
-<body>
+<body><br><br>
 <center>
+  <div class="card">
 <h3>Booked Course Details</h3><br>
 <form method="post">
     {% csrf_token %}
@@ -30,6 +50,7 @@
     
     <th width="175" >Package Name</th>
     <th width="175" >Package Cost and Duration</th>
+    <th width="175" >Give Rating</th>
     <th width="175" >Status</th>
     
 
@@ -55,7 +76,10 @@
     <td align="center" >{{i.pack.package_cost}}<br>{{i.pack.package_duration}}
     </td>
     <td align="center">
-      <a href="" style="color:red;" >Cancel Booking</a>
+      <a href="{% url 'webuser:rating' i.id %}" style="color:red;" >Rate Center</a>
+    </td>
+    <td align="center">
+      <a href="{% url 'webuser:cancelbooking' i.id %}" style="color:red;" >Cancel Booking</a>
     </td>
    
   </tr>
@@ -68,7 +92,9 @@
 
 
 </form>
+</div>
 </center>
+
 
 
 

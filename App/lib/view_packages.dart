@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hobbio/view_packages.dart';
-import 'package:hobbio/view_images.dart';
+import 'package:hobbio/book_package.dart';
 
-class ViewCenter extends StatelessWidget {
+class ViewPackages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +20,7 @@ class ViewCenter extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 20.0),
               child: Center(
                 child: Text(
-                  'Artistic', // Add your center name here
+                  'Kungfu Masters', // Replace with your center name here
                   style: TextStyle(
                     fontSize: 35.0,
                     fontWeight: FontWeight.bold,
@@ -31,13 +31,17 @@ class ViewCenter extends StatelessWidget {
               ),
             ),
             CenterCard(
-              courseName: 'Kungfu Masters',
-              courseDescription: 'Learn kungfu like Bruce Lee',
+              packageName: 'Kungfu Pack 1',
+              packageCost: '6000',
+              packageDuration: '6 Months',
+              packageDescription: 'Beginner',
             ),
             SizedBox(height: 16.0),
             CenterCard(
-              courseName: 'Nightingale',
-              courseDescription: 'Sing your heart out',
+              packageName: 'Kungfu Pack 2',
+              packageCost: '10000',
+              packageDuration: '10 Months',
+              packageDescription: 'Intermediate',
             ),
           ],
         ),
@@ -47,12 +51,16 @@ class ViewCenter extends StatelessWidget {
 }
 
 class CenterCard extends StatelessWidget {
-  final String courseName;
-  final String courseDescription;
+  final String packageName;
+  final String packageCost;
+  final String packageDuration;
+  final String packageDescription;
 
   CenterCard({
-    required this.courseName,
-    required this.courseDescription,
+    required this.packageName,
+    required this.packageCost,
+    required this.packageDuration,
+    required this.packageDescription,
   });
 
   @override
@@ -68,7 +76,7 @@ class CenterCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              courseName,
+              packageName,
               style: TextStyle(
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
@@ -76,47 +84,33 @@ class CenterCard extends StatelessWidget {
             ),
             SizedBox(height: 8.0),
             Text(
-              courseDescription,
+              'Cost: $packageCost | Duration: $packageDuration',
+              style: TextStyle(
+                fontSize: 16.0,
+              ),
+            ),
+            SizedBox(height: 8.0),
+            Text(
+              packageDescription,
               style: TextStyle(
                 fontSize: 16.0,
               ),
             ),
             SizedBox(height: 16.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                     Navigator.push(
+            ElevatedButton(
+              onPressed: () {
+                // Book Package Logic
+                Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ViewPackages()),
+            MaterialPageRoute(builder: (context) => BookPackage()),
           );
-                    // View Packages Logic
-                  },
-                  child: Text('View Packages'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ViewImages()),
-          );
-                    // View Images Logic
-                  },
-                  child: Text('View Images'),
-                ),
-              ],
-            ),
-            Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                icon: Icon(
-                  Icons.favorite_border, // Use your desired heart icon
-                  color: Colors.red,
-                ),
-                onPressed: () {
-                  // Add like course logic here
-                },
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 14, 45, 70)), // Change button color here
+              ),
+              child: Text(
+                'Book Package',
+                style: TextStyle(color: Colors.white), // Change text color to white
               ),
             ),
           ],

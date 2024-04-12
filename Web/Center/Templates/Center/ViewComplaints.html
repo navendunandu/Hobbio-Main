@@ -2,54 +2,76 @@
 {% load static %}
 {% block content %}
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Complaints</title>
+    <style>
+        .card {
+            width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            margin: 0 auto;
+            width: 100%;
+        }
+        td, th {
+            padding: 8px;
+            text-align: center;
+        }
+        .reply-link {
+            color: green;
+            text-decoration: none;
+        }
+        .reply-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
-<body>
-    <center>
+<body><br><br>
+    <div class="card">
         <form action="" method="post">
             {% csrf_token %}
-            <h3>Complaints From Users</h3>
-            
-            <table border="1">
-                <tr>
-                    <td>Sl No:</td>
-                    <td>User Name:</td>
-                    <td>User Contact:</td>
-                    <td>User Email:</td>
-                    <td>Complaint Title:</td>
-                    <td>Complaint Description:</td>
-                    <td>Action:</td>
-                </tr>
-                {% for i in data2 %}
-                <tr>
-                    <td>{{forloop.counter}}</td>
-                    <td>{{i.user.user_name}}</td>
-                    <td>{{i.user.user_contact}}</td>
-                    <td>{{i.user.user_email}}</td>
-                    <td>{{i.ccomp_data.ccomplaint_title}}</td>
-                    <td>{{i.ccomp_data.ccomplaint_content}}</td>
-                    <td>
-                        {% if i.ccomp_data.ccomplaint_reply %}
-                        
-                        {{i.ccomp_data.ccomplaint_reply}}
-                        {% else %}
-                        <a href="{% url 'webcenter:replycomplaints' i.id %}">Reply</a>
-                    {% endif %}
-                </td>
-                </tr>
-                {% endfor %}   
-
-            </table>
+            <center>
+                <h3>Complaints From Users</h3>
+                <br>
+                <table border="1">
+                    <tr>
+                        <th>Sl No</th>
+                        <th>User Name</th>
+                        <th>User Contact</th>
+                        <th>User Email</th>
+                        <th>Complaint Title</th>
+                        <th>Complaint Description</th>
+                        <th>Action</th>
+                    </tr>
+                    {% for i in data2 %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{i.user.user_name}}</td>
+                        <td>{{i.user.user_contact}}</td>
+                        <td>{{i.user.user_email}}</td>
+                        <td>{{i.ccomp_data.ccomplaint_title}}</td>
+                        <td>{{i.ccomp_data.ccomplaint_content}}</td>
+                        <td>
+                            {% if i.ccomp_data.ccomplaint_reply %}
+                                {{i.ccomp_data.ccomplaint_reply}}
+                            {% else %}
+                                <a href="{% url 'webcenter:replycomplaints' i.id %}" class="reply-link">Reply</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}   
+                </table>
+            </center>
         </form>
-    </center>
-    
+    </div>
 </body>
 </html>
 {% endblock content %}
