@@ -1,9 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hobbio/user_editprofile.dart';
 
-class UserProfilePage extends StatelessWidget {
+class MyProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +20,22 @@ class UserProfilePage extends StatelessWidget {
           Center(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
-              child: UserProfileCard(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'My Profile',
+                    style: TextStyle(
+                       fontSize: 35.0,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Hobbio3',
+                    color: Color.fromRGBO(0, 1, 0, 1),
+                    ),
+                  ),
+                  SizedBox(height: 20.0),
+                  MyProfileCard(),
+                ],
+              ),
             ),
           ),
         ],
@@ -29,7 +44,7 @@ class UserProfilePage extends StatelessWidget {
   }
 }
 
-class UserProfileCard extends StatelessWidget {
+class MyProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -39,13 +54,61 @@ class UserProfileCard extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.all(30.0),
-        child: UserProfile(),
+        child: MyProfileContent(),
       ),
     );
   }
 }
 
-class UserProfile extends StatelessWidget {
+class MyProfileContent extends StatefulWidget {
+  @override
+  _MyProfileContentState createState() => _MyProfileContentState();
+}
+
+class _MyProfileContentState extends State<MyProfileContent> {
+  String name = 'Loading...';
+  String email = 'Loading...';
+  String contact = 'Loading...';
+  String housename = 'Loading...';
+  String area = 'Loading...';
+  String image = '';
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  Future<void> loadData() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      final userId = user?.uid;
+      QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await FirebaseFirestore.instance
+              .collection('tbl_user')
+              .where('user_id', isEqualTo: userId)
+              .limit(1)
+              .get();
+      if (querySnapshot.docs.isNotEmpty) {
+        final doc = querySnapshot.docs.first;
+        setState(() {
+          name = doc['user_name'] ?? 'Error Loading Data';
+          email = doc['user_email'] ?? 'Error Loading Data';
+          contact = doc['user_contact'] ?? 'Error Loading Data';
+          housename = doc['user_housename'] ?? 'Error Loading Data';
+          area = doc['user_area'] ?? 'Error Loading Data';
+          image = doc['user_photo'];
+        });
+      } else {
+        setState(() {
+          name = 'Error Loading Data';
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -54,11 +117,13 @@ class UserProfile extends StatelessWidget {
       children: <Widget>[
         CircleAvatar(
           radius: 50,
-          backgroundImage: AssetImage('assets/bg3.jpg'),
+          backgroundImage: image.isNotEmpty
+              ? NetworkImage(image)
+              : AssetImage('assets/pro.jpg') as ImageProvider,
         ),
         SizedBox(height: 20.0),
         Text(
-          'Sheen',
+          name,
           style: TextStyle(
             fontSize: 18.0,
             fontFamily: 'Hobbio8',
@@ -67,16 +132,16 @@ class UserProfile extends StatelessWidget {
         ),
         SizedBox(height: 10.0),
         Text(
-  'Email: fathimasheen524@gmail.com',
-  style: TextStyle(
-    fontSize: 18.0,
-    fontFamily: 'Hobbio8',
-  ),
-  softWrap: false,
-),
+          'Email: $email',
+          style: TextStyle(
+            fontSize: 18.0,
+            fontFamily: 'Hobbio8',
+          ),
+          softWrap: false,
+        ),
         SizedBox(height: 10.0),
         Text(
-          'Contact: 8606147681',
+          'Contact: $contact',
           style: TextStyle(
             fontSize: 18.0,
             fontFamily: 'Hobbio8',
@@ -84,7 +149,7 @@ class UserProfile extends StatelessWidget {
         ),
         SizedBox(height: 10.0),
         Text(
-          'House Name: Karolil',
+          'House Name: $housename',
           style: TextStyle(
             fontSize: 18.0,
             fontFamily: 'Hobbio8',
@@ -92,72 +157,50 @@ class UserProfile extends StatelessWidget {
         ),
         SizedBox(height: 10.0),
         Text(
-          'Area: Punnamattom',
+          'Area: $area',
           style: TextStyle(
             fontSize: 18.0,
             fontFamily: 'Hobbio8',
           ),
         ),
-        SizedBox(height: 10.0),
-        Text(
-          'District: Ernakulam',
-          style: TextStyle(
-            fontSize: 18.0,
-            fontFamily: 'Hobbio8',
-          ),
-        ),
-        SizedBox(height: 10.0),
-        Text(
-          'City : Muvattupuzha',
-          style: TextStyle(
-            fontSize: 18.0,
-            fontFamily: 'Hobbio8',
-          ),
-        ),
-        SizedBox(height: 10.0),
+        SizedBox(height: 20.0),
         ElevatedButton(
           onPressed: () {
             Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => UserEditProfile()),
-    );
+              context,
+              MaterialPageRoute(builder: (context) => UserEditProfile()),
+            );
           },
           style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all<Color>(Color.fromARGB(255, 65, 89, 124)),
+            backgroundColor: MaterialStateProperty.all<Color>(
+              Color.fromARGB(255, 65, 89, 124),
+            ),
           ),
-          child: Center(
-            child: Text(
-              'Edit Profile',
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: 'Hobbio',
-                fontSize: 17,
-              ),
+          child: Text(
+            'Edit Profile',
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'Hobbio',
+              fontSize: 17,
             ),
           ),
         ),
         SizedBox(height: 10.0),
         ElevatedButton(
-         onPressed: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => EditProfile()),
-    );
-    // View center details
-  },
+          onPressed: () {
+            // Implement Change Password functionality
+          },
           style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all<Color>(Color.fromARGB(255, 65, 89, 124)),
+            backgroundColor: MaterialStateProperty.all<Color>(
+              Color.fromARGB(255, 65, 89, 124),
+            ),
           ),
-          child: Center(
-            child: Text(
-              'Change Password',
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: 'Hobbio',
-                fontSize: 17,
-              ),
+          child: Text(
+            'Change Password',
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'Hobbio',
+              fontSize: 17,
             ),
           ),
         ),

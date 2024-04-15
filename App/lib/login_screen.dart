@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hobbio/user_dashboard.dart';
 import 'package:hobbio/user_registration.dart';
+import 'package:hobbio/forgot_password.dart';
 import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -190,6 +191,7 @@ print("login error $e");
                           onTap: () {
                             // Handle Forgot Password tap
                             print('Forgot Password');
+                             Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPassword(),));
                           },
                           child: const Text(
                             'Forgot Password...?',

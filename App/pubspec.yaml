@@ -30,6 +30,7 @@ flutter:
     - assets/
     - assets/karate1.jpg
     - assets/karate2.jpg
+    - assets/pro.jpg
   fonts:
     - family: Hobbio
       fonts:

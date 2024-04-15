@@ -45,7 +45,34 @@ def AdminRegistration(request):
 
 def AdminHome(request):
     admin=db.collection("tbl_admin").document(request.session["aid"]).get().to_dict()
-    return render(request,"Admin/AdminHome.html",{"admin":admin})
+    catdata=dashcategoryreport()
+    xcat=[]
+    ycat=[]
+    for cat in catdata:
+        xcat.append(cat['catname'])
+        ycat.append(cat['count'])
+    xcatjson = json.dumps(xcat)
+    ycatjson = json.dumps(ycat)
+
+    ldata=dashlearnersreport()
+    xl=[]
+    yl=[]
+    for l in ldata:
+        xl.append(l['center'])
+        yl.append(l['count'])
+    xljson = json.dumps(xl)
+    yljson = json.dumps(yl) 
+
+    scatdata=dashsubcategoryreport()
+    xs=[]
+    ys=[]
+    for s in scatdata:
+        xs.append(s['scatname'])
+        ys.append(s['count'])  
+    xsjson = json.dumps(xs)
+    ysjson = json.dumps(ys)  
+    return render(request,"Admin/AdminHome.html",{"admin":admin,'xcat':xcatjson,'ycat':ycatjson,'xl':xljson,'yl':yljson
+                                                  ,'xs':xsjson,'ys':ysjson})
 
 
 def District(request):
@@ -442,6 +469,70 @@ def logout(request):
     return redirect("webguest:login")
 
 
+def dashcategoryreport():    
+    bookids = []
+    catlist = []
+    xlist=[]
+    ylist=[]
+    cdata = db.collection("tbl_category").stream()     
+    for c in cdata:
+        category = c.to_dict()
+        sdata = db.collection("tbl_subcategory").where("category_id", "==", c.id).stream()
+        for s in sdata:
+            codata = db.collection("tbl_course").where("subcategory_id", "==", s.id).stream()
+            for co in codata:
+                pdata = db.collection("tbl_package").where("course_id", "==", co.id).stream()
+                for p in pdata:
+                    bdata = db.collection("tbl_booking").where("package_id", "==", p.id).stream()
+                    for b in bdata:
+                        bookids.append(b.id)
+        count = len(bookids)
+        catlist.append({"catname": category['category_name'],"count":count})
+        bookids=[]
+    return catlist
 
+def dashlearnersreport():
+    xlist=[]
+    ylist=[]
+    centerlist=[]
+    bookids=[]
+    cdata=db.collection("tbl_center").stream()
+    for c in cdata:
+        center=c.to_dict()
+        codata=db.collection("tbl_course").where("center_id","==",c.id).stream()
+        for co in codata:
+            course=co.to_dict()
+            pdata=db.collection("tbl_package").where("course_id","==",co.id).stream()
+            for p in pdata:
+                package=p.to_dict()
+                bdata=db.collection("tbl_booking").where("package_id","==",p.id).stream()
+                for b in bdata:
+                        book = b.to_dict()
+                        bookids.append(b.id)
+        count = len(bookids)
+        centerlist.append({"center": center['center_name'],"count":count})
+        bookids=[]
+    return centerlist
 
-
+def dashsubcategoryreport():    
+    bookids = []
+    scatlist = []
+    sdata = db.collection("tbl_subcategory").stream()       
+    for s in sdata:        
+        subcategory = s.to_dict()
+        codata = db.collection("tbl_course").where("subcategory_id", "==", s.id).stream()
+        for co in codata:
+            course = co.to_dict()
+            pdata = db.collection("tbl_package").where("course_id", "==", co.id).stream()
+            for p in pdata:
+                package = p.to_dict()
+                bdata = db.collection("tbl_booking").where("package_id", "==", p.id).stream()
+                for b in bdata:
+                    book = b.to_dict()
+                    bookids.append(b.id)
+        count = len(bookids)
+        scatlist.append({"scatname": subcategory['subcategory_name'],"count":count})
+        bookids=[]
+        # print("data:",catlist)
+   
+    return scatlist

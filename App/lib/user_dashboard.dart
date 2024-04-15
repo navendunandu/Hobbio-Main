@@ -92,7 +92,7 @@ class _UserDashboardState extends State<UserDashboard> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (e) => UserProfilePage(),
+                            builder: (e) => MyProfile(),
                           ),
                         );
                       },

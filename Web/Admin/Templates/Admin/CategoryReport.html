@@ -4,10 +4,11 @@
 <!DOCTYPE html>
 <html>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
 <body>
-<center>
+  <center>
     <h2 style="font-family: 'Times New Roman', serif; font-size: 35px;">Category Report</h2>
-</center>
+  </center>
   <form style="background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -17,49 +18,49 @@
             height: 400px;
     max-width: 621px;">
     {% csrf_token %}
-<div id="tab" align="center">
-    
-<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+    <div id="tab" align="center">
 
-<script>
+      <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
 
-
-var xValues = []
-xValues = JSON.parse('{{ x | safe }}');
-console.log(xValues);
-
-var yValues = [];
-yValues = JSON.parse('{{ y | safe }}');
-console.log(yValues);
+      <script>
 
 
-var barColors = [
-  "#b91d47",
-  "#00aba9",
-  "#2b5797",
-  "#e8c3b9",
-  "#1e7145"
-];
+        var xValues = []
+        xValues = JSON.parse('{{ x | safe }}');
+        console.log(xValues);
 
-new Chart("myChart", {
-  type: "pie",
-  data: {
-    labels: xValues,
-    datasets: [{
-      backgroundColor: barColors,
-      data: yValues
-    }]
-  },
-  options: {
-    title: {
-      display: true,
-      text: "All Category Report"
-    }
-  }
-});
-</script>
+        var yValues = [];
+        yValues = JSON.parse('{{ y | safe }}');
+        console.log(yValues);
 
-</div>
+
+        var barColors = [
+          "#b91d47",
+          "#00aba9",
+          "#2b5797",
+          "#e8c3b9",
+          "#1e7145"
+        ];
+
+        new Chart("myChart", {
+          type: "pie",
+          data: {
+            labels: xValues,
+            datasets: [{
+              backgroundColor: barColors,
+              data: yValues
+            }]
+          },
+          options: {
+            title: {
+              display: true,
+              text: "All Category Report"
+            }
+          }
+        });
+      </script>
+
+    </div>
 </body>
 
 </html>

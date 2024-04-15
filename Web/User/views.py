@@ -297,7 +297,7 @@ def bookpackage(request, id):
 
 
 def payment(request):
-    print('Hi')
+    
     bookingdata=db.collection("tbl_booking").where("user_id","==",request.session["uid"]).where("booking_status","==",0).order_by("booking_date_time", direction=firestore.Query.DESCENDING).limit(1).stream()
     bookingid = None  # Initialize bookingid to None in case no document is found
     for doc in bookingdata:
@@ -309,7 +309,7 @@ def payment(request):
         
     if request.method=="POST":
         db.collection("tbl_booking").document(bookingid).update({"booking_status":1})
-        return redirect("webuser:viewbookings")
+        return render(request, 'User/Success.html')
     else:
         return render(request, "User/Payment.html")
 
