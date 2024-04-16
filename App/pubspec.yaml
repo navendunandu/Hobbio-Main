@@ -15,6 +15,7 @@ dependencies:
   flutter:
     sdk: flutter
   fluttertoast: ^8.2.4
+  http: ^1.2.1
   image_picker: ^1.0.7
   progress_dialog_null_safe: ^3.0.0
   

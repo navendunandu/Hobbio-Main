@@ -76,12 +76,15 @@ class _ComplaintsFormState extends State<ComplaintsForm> {
     if (_formKey.currentState!.validate()) {
       final userId = FirebaseAuth.instance.currentUser?.uid;
       if (userId != null) {
+         QuerySnapshot userSnapshot =
+          await FirebaseFirestore.instance.collection('tbl_user').where('user_id', isEqualTo: userId).get();
+                  String uDoc = userSnapshot.docs.first.id;
         final complaintContent = _complaintController.text.trim();
         final complainttitle = _complainttitleController.text.trim();
         try {
           // Add the complaint to Firestore
           await FirebaseFirestore.instance.collection('tbl_complaints').add({
-            'user_id': userId,
+            'user_id': uDoc,
             'complaint_title': complainttitle,
             'complaint_content': complaintContent,
             // Add a timestamp if needed
@@ -93,6 +96,7 @@ class _ComplaintsFormState extends State<ComplaintsForm> {
             ),
           );
           _complaintController.clear();
+          _complainttitleController.clear();
         } catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

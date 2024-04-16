@@ -1,6 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:hobbio/bookings.dart';
 
 class BookPackage extends StatefulWidget {
+  final String id;
+
+  const BookPackage({
+    Key? key,
+    required this.id,
+  }) : super(key: key);
+
   @override
   _BookPackageState createState() => _BookPackageState();
 }
@@ -21,6 +31,42 @@ class _BookPackageState extends State<BookPackage> {
     _cvvController = TextEditingController();
   }
 
+  Future<void> makePayment() async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('tbl_booking')
+          .doc(widget.id)
+          .update({
+        'booking_status': 1,
+      });
+      print('Booking status updated successfully.');
+      showPaymentSuccessfulDialog(context);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ViewBookingPage(),));
+    } catch (e) {
+      print('Error updating booking status: $e');
+    }
+  }
+
+  void showPaymentSuccessfulDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Payment Successful'),
+          content: Text('Your payment has been successfully processed.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   void dispose() {
     _cardHolderController.dispose();
@@ -28,13 +74,6 @@ class _BookPackageState extends State<BookPackage> {
     _expiryDateController.dispose();
     _cvvController.dispose();
     super.dispose();
-  }
-
-  void _submit() {
-    if (_formKey.currentState!.validate()) {
-      // Implement your payment processing logic here
-      // Once payment is successful, you can navigate to the next screen or perform any other actions
-    }
   }
 
   @override
@@ -80,6 +119,7 @@ class _BookPackageState extends State<BookPackage> {
                           decoration: InputDecoration(
                             labelText: 'Card Holder',
                           ),
+                          keyboardType: TextInputType.name,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter card holder name';
@@ -97,11 +137,17 @@ class _BookPackageState extends State<BookPackage> {
                             if (value == null || value.isEmpty) {
                               return 'Please enter card number';
                             }
-                            if (!RegExp(r'^\d{4} \d{4} \d{4} \d{4}$').hasMatch(value)) {
+                            if (!RegExp(r'^\d{4} \d{4} \d{4} \d{4}$')
+                                .hasMatch(value)) {
                               return 'Please enter a valid card number';
                             }
                             return null;
                           },
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(16),
+                            CardNumberInputFormatter(),
+                          ],
                         ),
                         SizedBox(height: 10.0),
                         Row(
@@ -116,11 +162,17 @@ class _BookPackageState extends State<BookPackage> {
                                   if (value == null || value.isEmpty) {
                                     return 'Please enter expiry date';
                                   }
-                                  if (!RegExp(r'^\d{2}/\d{2}$').hasMatch(value)) {
+                                  if (!RegExp(r'^\d{2}/\d{2}$')
+                                      .hasMatch(value)) {
                                     return 'Please enter a valid expiry date (MM/YY)';
                                   }
                                   return null;
                                 },
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  LengthLimitingTextInputFormatter(4),
+                                  ExpiryDateInputFormatter(),
+                                ],
                               ),
                             ),
                             SizedBox(width: 10.0),
@@ -139,15 +191,24 @@ class _BookPackageState extends State<BookPackage> {
                                   }
                                   return null;
                                 },
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  LengthLimitingTextInputFormatter(3),
+                                ],
                               ),
                             ),
                           ],
                         ),
                         SizedBox(height: 20.0),
                         ElevatedButton(
-                          onPressed: _submit,
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              makePayment();
+                            }
+                          },
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 14, 45, 70)), // Change button color here
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                const Color.fromARGB(255, 14, 45, 70)),
                           ),
                           child: Text(
                             'Pay',
@@ -162,6 +223,62 @@ class _BookPackageState extends State<BookPackage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class CardNumberInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    var text = newValue.text;
+    if (newValue.selection.baseOffset == 0) {
+      return newValue;
+    }
+
+    var buffer = StringBuffer();
+    for (int i = 0; i < text.length; i++) {
+      buffer.write(text[i]);
+      var nonSpace = text[i] != ' ';
+      if ((i == 3 || i == 7 || i == 11) && nonSpace) {
+        buffer.write(' ');
+      }
+    }
+
+    var string = buffer.toString();
+    return newValue.copyWith(
+      text: string,
+      selection: TextSelection.collapsed(
+        offset: string.length,
+      ),
+    );
+  }
+}
+
+class ExpiryDateInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    var text = newValue.text;
+    if (newValue.selection.baseOffset == 0) {
+      return newValue;
+    }
+
+    var buffer = StringBuffer();
+    for (int i = 0; i < text.length; i++) {
+      buffer.write(text[i]);
+      var nonSlash = text[i] != '/';
+      if (i == 1 && nonSlash) {
+        buffer.write('/');
+      }
+    }
+
+    var string = buffer.toString();
+    return newValue.copyWith(
+      text: string,
+      selection: TextSelection.collapsed(
+        offset: string.length,
       ),
     );
   }

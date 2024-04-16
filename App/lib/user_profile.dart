@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hobbio/forgot_password.dart';
 import 'package:hobbio/user_editprofile.dart';
 
 class MyProfile extends StatelessWidget {
@@ -188,7 +189,10 @@ class _MyProfileContentState extends State<MyProfileContent> {
         SizedBox(height: 10.0),
         ElevatedButton(
           onPressed: () {
-            // Implement Change Password functionality
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ForgotPassword(title: 'Change Password',)),
+            );
           },
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all<Color>(
@@ -198,7 +202,7 @@ class _MyProfileContentState extends State<MyProfileContent> {
           child: Text(
             'Change Password',
             style: TextStyle(
-              color: Colors.white,
+              color: const Color.fromARGB(255, 255, 255, 255),
               fontFamily: 'Hobbio',
               fontSize: 17,
             ),

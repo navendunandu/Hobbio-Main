@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -19,6 +21,34 @@ class UserDashboard extends StatefulWidget {
 }
 
 class _UserDashboardState extends State<UserDashboard> {
+  String? name;
+  @override
+  void initState() {
+    super.initState();
+    getUser();
+  }
+
+  Future<void> getUser() async {
+    try {
+      String? userId = FirebaseAuth.instance.currentUser?.uid;
+      QuerySnapshot<Map<String, dynamic>> userSnapshot = await FirebaseFirestore
+          .instance
+          .collection('tbl_user')
+          .where('user_id', isEqualTo: userId)
+          .get();
+
+      String? userName;
+
+      if (userSnapshot.docs.isNotEmpty) {
+        // Assuming 'user_name' is the field name in the document
+        userName = userSnapshot.docs.first.get('user_name');
+      }
+      setState(() {
+        name = userName;
+      });
+    } catch (e) {}
+  }
+
   @override
   Widget build(BuildContext context) {
     {
@@ -39,12 +69,13 @@ class _UserDashboardState extends State<UserDashboard> {
               Padding(
                 padding: EdgeInsets.only(left: 30, top: 80),
                 child: Text(
-                  'Sheen', // Replace with the actual user name
+                  name ?? 'USerName', // Replace with the actual user name
                   style: TextStyle(
                     fontFamily: 'hobbio',
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 1, 8, 15), // You can change the color according to your design
+                    color: Color.fromARGB(255, 1, 8,
+                        15), // You can change the color according to your design
                   ),
                 ),
               ),
@@ -58,15 +89,15 @@ class _UserDashboardState extends State<UserDashboard> {
                     decoration: BoxDecoration(
                       border: Border(
                         left: BorderSide(
-                          color: Color.fromARGB(212, 45, 128, 205), // Border color
+                          color:
+                              Color.fromARGB(212, 45, 128, 205), // Border color
                           width: 10, // Border thickness
                         ),
                       ),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.only(
-                          left: 22),
-                           // Adjust the padding as needed
+                      padding: EdgeInsets.only(left: 22),
+                      // Adjust the padding as needed
                       child: Text(
                         "Home",
                         style: TextStyle(
@@ -89,13 +120,13 @@ class _UserDashboardState extends State<UserDashboard> {
                           left: 30, top: 10), // Adjust the padding as needed
                       child: GestureDetector(
                         onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (e) => MyProfile(),
-                          ),
-                        );
-                      },
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (e) => MyProfile(),
+                            ),
+                          );
+                        },
                         child: Text(
                           "Profile",
                           style: TextStyle(
@@ -118,14 +149,13 @@ class _UserDashboardState extends State<UserDashboard> {
                           left: 30, top: 10), // Adjust the padding as needed
                       child: GestureDetector(
                         onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (e) => SearchPage(),
-                          ),
-                        );
-                      },
-
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (e) => SearchPage(),
+                            ),
+                          );
+                        },
                         child: Text(
                           "Search Centers",
                           style: TextStyle(
@@ -140,59 +170,34 @@ class _UserDashboardState extends State<UserDashboard> {
                   ),
                 ],
               ),
-             Row(
-  children: [
-    Container(
-      child: Padding(
-        padding: EdgeInsets.only(left: 30, top: 10), 
-        child: GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ViewBookingPage(),
-              ),
-            );
-          },
-          child: Text(
-            "View Bookings",
-            style: TextStyle(
-              fontFamily: 'Hobbio3', // Check if this font exists in your project
-              fontWeight: FontWeight.w500,
-              fontSize: 23,
-            ),
-          ),
-        ),
-      ),
-    ),
-  ],
-),
-
               Row(
-  children: [
-    Container(
-      child: Padding(
-        padding: EdgeInsets.only(left: 30, top: 10), // Adjust the padding as needed
-        child: GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => FavoritesPage()),
-            );
-          },
-          child: Text(
-            "Favorites",
-            style: TextStyle(
-              fontFamily: 'Hobbio3', // Check if this font exists in your project
-              fontWeight: FontWeight.w500,
-              fontSize: 23,
-            ),
-          ),
-        ),
-      ),
-    ),
-  ],
-),
+                children: [
+                  Container(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 30, top: 10),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ViewBookingPage(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "View Bookings",
+                          style: TextStyle(
+                            fontFamily:
+                                'Hobbio3', // Check if this font exists in your project
+                            fontWeight: FontWeight.w500,
+                            fontSize: 23,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
 
               Row(
                 children: [
@@ -202,13 +207,42 @@ class _UserDashboardState extends State<UserDashboard> {
                           left: 30, top: 10), // Adjust the padding as needed
                       child: GestureDetector(
                         onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (e) => UserComplaints(),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => FavoritesPage()),
+                          );
+                        },
+                        child: Text(
+                          "Favorites",
+                          style: TextStyle(
+                            fontFamily:
+                                'Hobbio3', // Check if this font exists in your project
+                            fontWeight: FontWeight.w500,
+                            fontSize: 23,
                           ),
-                        );
-                      },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              Row(
+                children: [
+                  Container(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: 30, top: 10), // Adjust the padding as needed
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (e) => UserComplaints(),
+                            ),
+                          );
+                        },
                         child: Text(
                           "Complaints",
                           style: TextStyle(
@@ -231,14 +265,13 @@ class _UserDashboardState extends State<UserDashboard> {
                           left: 30, top: 10), // Adjust the padding as needed
                       child: GestureDetector(
                         onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (e) => UserFeedbacks(),
-                          ),
-                        );
-                      },
-
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (e) => UserFeedbacks(),
+                            ),
+                          );
+                        },
                         child: Text(
                           "Feedbacks",
                           style: TextStyle(
@@ -288,59 +321,42 @@ class _UserDashboardState extends State<UserDashboard> {
               //         ),
 
               //             ),
-                          
-                         
 
               //           ],
 
               //         ),
 
-                     Row(
-  children: [
-    Container(
-      child: Padding(
-        padding: EdgeInsets.only(left: 25,top: 200), // Adjust the padding as needed
-        child: Row( // Wrap Icon and Text in a Row
-          children: [
-            Icon(
-              Icons.power_settings_new_rounded,
-              size: 30, // Adjust the size as needed
-              color: Colors.black, // Adjust the color as needed
-            ),
-             // Add space between Icon and Text
-            Text(
-              "Logout",
-              style: TextStyle(
-                fontFamily: 'Hobbio3', // Check if this font exists in your project
-                fontWeight: FontWeight.bold,
-                fontSize: 23,
+              Row(
+                children: [
+                  Container(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: 25, top: 200), // Adjust the padding as needed
+                      child: Row(
+                        // Wrap Icon and Text in a Row
+                        children: [
+                          Icon(
+                            Icons.power_settings_new_rounded,
+                            size: 30, // Adjust the size as needed
+                            color: Colors.black, // Adjust the color as needed
+                          ),
+                          // Add space between Icon and Text
+                          Text(
+                            "Logout",
+                            style: TextStyle(
+                              fontFamily:
+                                  'Hobbio3', // Check if this font exists in your project
+                              fontWeight: FontWeight.bold,
+                              fontSize: 23,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
-      ),
-    ),
-  ],
-),
-
-
-
-
-
-
-
-              
-             
-              
-
-             
-
-              
-
-             
-             
             ],
-                     
           ),
         ),
       );

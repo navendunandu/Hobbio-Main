@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPassword extends StatefulWidget {
-  const ForgotPassword({Key? key}) : super(key: key);
+  final String title;
+  const ForgotPassword({super.key, required this.title});
 
   @override
   State<ForgotPassword> createState() => _ForgotPasswordState();
@@ -62,7 +63,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'Forgot Password',
+                          widget.title,
                           style: TextStyle(
                             fontSize: 35.0,
                             fontWeight: FontWeight.bold,
@@ -75,7 +76,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         TextFormField(
                           controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: const Color.fromARGB(255, 4, 4, 4)),
                           decoration: InputDecoration(
                             hintText: 'Enter Your Email',
                             hintStyle: TextStyle(color: Color.fromARGB(255, 41, 79, 117)),

@@ -191,7 +191,7 @@ print("login error $e");
                           onTap: () {
                             // Handle Forgot Password tap
                             print('Forgot Password');
-                             Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPassword(),));
+                             Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPassword(title: 'Forgot Password',),));
                           },
                           child: const Text(
                             'Forgot Password...?',
