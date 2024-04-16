@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hobbio/view_center.dart';
-import 'package:hobbio/view_packages.dart';
+import 'package:Hobbio/view_center.dart';
+import 'package:Hobbio/view_packages.dart';
 
 class FavoritesPage extends StatefulWidget {
   @override

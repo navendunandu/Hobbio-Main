@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hobbio/login_screen.dart';
-import 'package:hobbio/user_dashboard.dart';
-import 'package:hobbio/user_registration.dart';
+import 'package:Hobbio/login_screen.dart';
+import 'package:Hobbio/user_dashboard.dart';
+import 'package:Hobbio/user_registration.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hobbio/view_images.dart';
-import 'package:hobbio/view_packages.dart'; // Import FirebaseAuth if you're using Firebase Authentication
+import 'package:Hobbio/view_images.dart';
+import 'package:Hobbio/view_packages.dart'; // Import FirebaseAuth if you're using Firebase Authentication
 
 class ViewCenter extends StatefulWidget {
   final String id;

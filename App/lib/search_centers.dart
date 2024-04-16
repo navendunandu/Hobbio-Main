@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:hobbio/view_center.dart';
+import 'package:Hobbio/view_center.dart';
 
 class SearchPage extends StatefulWidget {
   @override

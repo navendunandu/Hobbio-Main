@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hobbio/forgot_password.dart';
-import 'package:hobbio/user_editprofile.dart';
+import 'package:Hobbio/forgot_password.dart';
+import 'package:Hobbio/user_editprofile.dart';
 
 class MyProfile extends StatelessWidget {
   @override

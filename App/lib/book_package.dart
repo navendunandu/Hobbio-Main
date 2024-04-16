@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hobbio/bookings.dart';
+import 'package:Hobbio/bookings.dart';
 
 class BookPackage extends StatefulWidget {
   final String id;

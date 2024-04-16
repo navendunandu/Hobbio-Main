@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hobbio/view_complaints.dart';
+import 'package:Hobbio/view_complaints.dart';
 
 class MyApp extends StatelessWidget {
   @override
