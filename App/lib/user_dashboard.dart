@@ -21,6 +21,7 @@ class UserDashboard extends StatefulWidget {
 }
 
 class _UserDashboardState extends State<UserDashboard> {
+   final FirebaseAuth _auth = FirebaseAuth.instance;
   String? name;
   @override
   void initState() {
@@ -69,7 +70,7 @@ class _UserDashboardState extends State<UserDashboard> {
               Padding(
                 padding: EdgeInsets.only(left: 30, top: 80),
                 child: Text(
-                  name ?? 'USerName', // Replace with the actual user name
+                  name ?? 'UserName', // Replace with the actual user name
                   style: TextStyle(
                     fontFamily: 'hobbio',
                     fontSize: 35,
@@ -287,75 +288,42 @@ class _UserDashboardState extends State<UserDashboard> {
                 ],
               ),
 
-              // Row(
-              //   children: [
-              //     Container(
-              //       child: Padding(
-              //         padding: EdgeInsets.only(
-              //             left: 50, top: 10), // Adjust the padding as needed
-              //         child: Text(
-              //           "Profile",
-              //           style: TextStyle(
-              //             fontFamily:
-              //                 'Hobbio3', // Check if this font exists in your project
-              //             fontWeight: FontWeight.w500,
-              //             fontSize: 23,
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
-
-              //  Row(
-              //           children: [
-              //             Container(
-              //               child: Padding(
-              //         padding: EdgeInsets.only(
-              //             left: 50, top: 10), // Adjust the padding as needed
-              //         child:
-              //              Icon(
-              //           Icons.power_settings_new_rounded,
-              //           size: 32, // Increase the size of the icon
-              //           color: Colors.black, // You can change the color of the icon
-              //         ),
-
-              //             ),
-
-              //           ],
-
-              //         ),
+             
 
               Row(
-                children: [
-                  Container(
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          left: 25, top: 200), // Adjust the padding as needed
-                      child: Row(
-                        // Wrap Icon and Text in a Row
-                        children: [
-                          Icon(
-                            Icons.power_settings_new_rounded,
-                            size: 30, // Adjust the size as needed
-                            color: Colors.black, // Adjust the color as needed
-                          ),
-                          // Add space between Icon and Text
-                          Text(
-                            "Logout",
-                            style: TextStyle(
-                              fontFamily:
-                                  'Hobbio3', // Check if this font exists in your project
-                              fontWeight: FontWeight.bold,
-                              fontSize: 23,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+  children: [
+    Container(
+      child: Padding(
+        padding: EdgeInsets.only(left: 25, top: 200),
+        child: GestureDetector(
+  onTap: () {
+    _auth.signOut();
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+  }, // Remove the extra closing parenthesis here
+          child: Row(
+            children: [
+              Icon(
+                Icons.power_settings_new_rounded,
+                size: 30,
+                color: Colors.black,
               ),
+              SizedBox(width: 10), // Add space between Icon and Text using SizedBox
+              Text(
+                "Logout",
+                style: TextStyle(
+                  fontFamily: 'Hobbio3',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 23,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  ],
+),
+
             ],
           ),
         ),
