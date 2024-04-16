@@ -142,6 +142,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
                             ['documentId'], // Use 'course_id' instead of 'id'
                         courseName: favoritesList[index]['course_name'],
                         removeFromFavorites: removeFromFavorites,
+                        cid:favoritesList[index]['course_id'] ,
                       );
                     },
                   ),
@@ -158,12 +159,13 @@ class _FavoritesPageState extends State<FavoritesPage> {
 class FavoriteCard extends StatelessWidget {
   final String courseName;
   final String id;
+  final String cid;
   final Function(String) removeFromFavorites; // Callback function
 
   const FavoriteCard({
     required this.courseName,
     required this.id,
-    required this.removeFromFavorites,
+    required this.removeFromFavorites, required this.cid,
   });
 
   @override
@@ -214,7 +216,7 @@ class FavoriteCard extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              ViewPackages(id: id, title: courseName),
+                              ViewPackages(id: cid, title: courseName),
                         ));
                   },
                   style: ButtonStyle(
